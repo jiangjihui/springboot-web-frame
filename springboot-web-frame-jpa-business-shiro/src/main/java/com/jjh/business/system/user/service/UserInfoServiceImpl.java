@@ -10,6 +10,7 @@ import com.jjh.common.exception.BusinessException;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -66,6 +67,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @param userInfo  用户信息
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public UserInfo createUser(UserInfo userInfo) {
         String username = userInfo.getUsername();

@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
  * 文章 服务层实现
  */
 @Service
-public class ArticleService implements IArticleService {
+public class ArticleServiceImpl implements IArticleService {
 
     @Autowired
     private ArticleMapper articleMapper;
