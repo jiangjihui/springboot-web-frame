@@ -19,6 +19,7 @@ import java.util.Map;
 
 /**
  * 登录接口
+ * 参考：http://www.ityouknow.com/springboot/2017/06/26/spring-boot-shiro.html
  *
  * @author jjh
  * @date 2019/9/20
