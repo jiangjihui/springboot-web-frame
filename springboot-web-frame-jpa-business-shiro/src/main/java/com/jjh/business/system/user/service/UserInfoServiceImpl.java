@@ -81,7 +81,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         String salt = System.currentTimeMillis()+"";
         userInfo.setSalt(salt);
-        // 密码加密
+        // 密码加密（与shiro密码校验时的解密机制一致）
         String passwd = new SimpleHash("MD5", password, username + salt, 2).toString();
         userInfo.setPassword(passwd);
         userInfoRepository.save(userInfo);
