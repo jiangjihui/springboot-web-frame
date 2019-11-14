@@ -18,10 +18,31 @@ import java.util.List;
 @NoRepositoryBean       //注解 不实例化该类，否则启动报错
 public interface BaseRepository<T,ID> extends JpaRepository<T, ID>,JpaSpecificationExecutor<T> {
 
+    /**
+     * 分页获取列表
+     * @param form  分页参数
+     * @return
+     */
     List<T> list(PageRequestForm form);
 
+    /**
+     * 分页获取列表
+     * @param form  分页参数
+     * @return
+     */
     Page<T> find(PageRequestForm form);
 
+    /**
+     * 执行SQL查询
+     * @param sql
+     * @return
+     */
     List<Object[]> listBySQL(String sql);
+
+    /**
+     * 批量删除对象
+     * @param ids   对象ID数组
+     */
+    void deleteMany(ID[] ids);
 
 }

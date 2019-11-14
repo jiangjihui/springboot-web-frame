@@ -1,6 +1,7 @@
 package com.jjh.common.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jjh.common.util.SnowFlake;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,7 +32,7 @@ public abstract class BaseEntity implements Serializable {
     @ApiModelProperty("唯一编号（ID）")
     @Id
     @Column(length = 40)
-    private String id = UUID.randomUUID().toString();
+    private String id = SnowFlake.nextId();
 
     /** 创建者*/
     @ApiModelProperty("创建者")

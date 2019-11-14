@@ -1,5 +1,6 @@
 package com.jjh.business.system.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jjh.common.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -50,6 +51,7 @@ public class UserInfo extends BaseEntity {
     private List<SysRole> roleList;
 
 
+    @JsonIgnore
     public String getCredentialsSalt() {
         return username+salt;
     }

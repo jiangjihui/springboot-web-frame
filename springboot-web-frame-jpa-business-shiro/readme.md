@@ -83,6 +83,7 @@ mvn package -DskipTests
 
 ## 资料文档  
 
+* 接口文档： http://localhost:8084/doc.html
 
 ## FAQ  
 

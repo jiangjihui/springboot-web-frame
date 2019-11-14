@@ -8,7 +8,6 @@ import com.jjh.common.web.form.SimpleResponseForm;
 import com.jjh.framework.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -34,7 +33,7 @@ public class LoginController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
-    private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 
     /**
@@ -84,7 +83,7 @@ public class LoginController extends BaseController {
     @ApiOperation("用户注册")
     @PostMapping("/register")
     public SimpleResponseForm<UserInfo> register(@RequestBody UserInfo userInfo) throws Exception {
-        UserInfo user = userInfoService.createUser(userInfo);
+        UserInfo user = userInfoService.add(userInfo);
         return success(user);
     }
 }

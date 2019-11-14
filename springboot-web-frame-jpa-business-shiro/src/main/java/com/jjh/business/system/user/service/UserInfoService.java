@@ -1,7 +1,10 @@
 package com.jjh.business.system.user.service;
 
 
+import com.jjh.business.system.user.controller.form.ResetPasswordForm;
 import com.jjh.business.system.user.domain.UserInfo;
+import com.jjh.common.web.form.PageRequestForm;
+import com.jjh.common.web.form.SimpleForm;
 
 import java.util.List;
 
@@ -14,23 +17,42 @@ import java.util.List;
 public interface UserInfoService {
 
     /**
+     * 用户列表
+     * @param form 分页请求表单
+     * @return
+     */
+    List<UserInfo> list(PageRequestForm form);
+
+    /**
      * 根据用户名查找用户
      * @param username  用户名
      * @return
      */
-    public UserInfo findByUsername(String username);
+    UserInfo findByUsername(String username);
 
     /**
-     * 获取用户列表
-     * @return
+     * 添加用户
+     * @param userInfo 用户信息
+     * @return 用户信息
      */
-    public List list();
+    UserInfo add(UserInfo userInfo);
 
     /**
-     * 创建用户
-     * @param userInfo  用户信息
-     * @return
+     * 更新用户
+     * @param entity 用户信息
+     * @return 用户信息
      */
-    public UserInfo createUser(UserInfo userInfo);
+    UserInfo update(UserInfo entity);
 
+    /**
+     * 删除用户
+     * @param ids 待删除的ID数组
+     */
+    void delete(String ids);
+
+    /**
+     *  更新用户密码
+     * @param form 密码表单
+     */
+    UserInfo resetPassword(ResetPasswordForm form);
 }
