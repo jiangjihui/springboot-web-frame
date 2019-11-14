@@ -17,28 +17,28 @@ public class BaseController {
      * 返回成功结果
      * @param result 结果
      */
-    public Object success(Object result){
-        return SimpleResponseForm.success(result);
+    public <T> SimpleResponseForm<T> success(T result){
+        return new SimpleResponseForm<>(result);
     }
 
     /**
      * 返回成功结果
      */
-    public Object success(){
-        return this.success("success");
+    public <T> SimpleResponseForm<T> success(){
+        return new SimpleResponseForm<>();
     }
 
     /**
      * 返回失败结果
      * @param message 失败信息
      */
-    public Object error(String message){
+    public SimpleResponseForm error(String message){
         return SimpleResponseForm.error(message);
     }
 
-    public Object page(Page result) {
+    public <T> SimpleResponseForm<T> page(Page<T> result) {
         PageResponseForm form = new PageResponseForm(result.getTotalElements(), result.getContent());
-        return SimpleResponseForm.success(form);
+        return new SimpleResponseForm(form);
     }
 
 

@@ -4,6 +4,7 @@ import com.jjh.business.system.user.domain.SysPermission;
 import com.jjh.business.system.user.domain.SysRole;
 import com.jjh.business.system.user.domain.UserInfo;
 import com.jjh.business.system.user.service.UserInfoService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -36,10 +37,10 @@ public class MyShiroRealm extends AuthorizingRealm {
         UserInfo userInfo = (UserInfo) principalCollection.getPrimaryPrincipal();
         List<SysRole> roleList = userInfo.getRoleList();
         for (SysRole role : roleList) {
-            authorizationInfo.addRole(role.getRole());
+            authorizationInfo.addRole(role.getCode());
             List<SysPermission> permissionList = role.getPermissionList();
             for (SysPermission permission : permissionList) {
-                authorizationInfo.addStringPermission(permission.getPermission());
+                authorizationInfo.addStringPermission(permission.getCode());
             }
         }
         return authorizationInfo;
@@ -67,5 +68,13 @@ public class MyShiroRealm extends AuthorizingRealm {
                 getName()  //realm name
         );
         return authenticationInfo;
+    }
+
+    /**
+     * 清理缓存权限
+     */
+    public void clearCachedAuthorizationInfo()
+    {
+        this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
     }
 }

@@ -1,6 +1,11 @@
 package com.jjh.business.system.user.domain;
 
 import com.jjh.common.model.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,83 +13,44 @@ import java.util.List;
 /**
  * 用户信息实体类
  */
+@ApiModel("用户信息实体类")
+@Data
 @Entity
 @Table(name = "user_info",indexes = {@Index(columnList = "username")})
 public class UserInfo extends BaseEntity {
-    @Column(unique =true)
-    private String username;//帐号
-    @Column
-    private String name;//名称（昵称或者真实姓名，不同系统不同定义）
-    @Column
-    private String password; //密码;
-    @Column
-    private String salt;//加密密码的盐
-    @Column
-    private byte state;//用户状态,0:创建未认证（比如没有激活，没有输入验证码等等）--等待验证的用户 , 1:正常状态,2：用户被锁定.
+
+    /** 帐号 */
+    @ApiModelProperty("帐号")
+    @Column(length = 120)
+    private String username;
+
+    /** 名称 */
+    @ApiModelProperty("名称")
+    @Column(length = 120)
+    private String name;
+
+    /** 密码 */
+    @ApiModelProperty("密码")
+    @Column(length = 255)
+    private String password;
+
+    /** 加密密码的盐 */
+    @ApiModelProperty("加密密码的盐")
+    @Column(length = 255)
+    private String salt;
+
+    /** 用户状态 0:创建未认证（比如没有激活，没有输入验证码等等）--等待验证的用户 , 1:正常状态,2：用户被锁定 */
+    @ApiModelProperty("用户状态 0:创建未认证（比如没有激活，没有输入验证码等等）--等待验证的用户 , 1:正常状态,2：用户被锁定")
+    @Column(length = 12)
+    private Integer state;
+
+    /** 角色列表 */
+    @ApiModelProperty("角色列表")
     @Transient
-    private List<SysRole> roleList;// 一个用户具有多个角色
+    private List<SysRole> roleList;
 
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public byte getState() {
-        return state;
-    }
-
-    public void setState(byte state) {
-        this.state = state;
-    }
-
-    public List<SysRole> getRoleList() {
-        return roleList;
-    }
-
-    public void setRoleList(List<SysRole> roleList) {
-        this.roleList = roleList;
-    }
 
     public String getCredentialsSalt() {
         return username+salt;
-    }
-
-    @Override
-    public String toString() {
-        return "UserInfo{" +
-                "username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", salt='" + salt + '\'' +
-                ", state=" + state +
-                ", roleList=" + roleList +
-                '}';
     }
 }

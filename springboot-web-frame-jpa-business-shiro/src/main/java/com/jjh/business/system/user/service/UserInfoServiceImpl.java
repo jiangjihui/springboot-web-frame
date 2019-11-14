@@ -39,6 +39,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public UserInfo findByUsername(String username) {
         UserInfo userInfo = userInfoRepository.findByUsername(username);
+        if (userInfo == null) {
+            return null;
+        }
         // 获取角色权限信息
         List<SysRole> roleList = roleRepository.findByUserInfoId(userInfo.getId());
         if (CollectionUtils.isNotEmpty(roleList)) {

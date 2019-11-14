@@ -1,10 +1,10 @@
-INSERT INTO `user_info` (`id`,`username`,`name`,`password`,`salt`,`state`) VALUES ('1', 'admin', '管理员', 'd3c59d25033dbf980d29554025c23a75', '8d78869f470951332959580424d4bf4f', 0);
-INSERT INTO `sys_permission` (`id`,`available`,`name`,`parentId`,`parentIds`,`permission`,`resourceType`,`url`) VALUES (1,0,'用户管理',0,'0/','userInfo:view','menu','userInfo/userList');
-INSERT INTO `sys_permission` (`id`,`available`,`name`,`parentId`,`parentIds`,`permission`,`resourceType`,`url`) VALUES (2,0,'用户添加',1,'0/1','userInfo:add','button','userInfo/userAdd');
-INSERT INTO `sys_permission` (`id`,`available`,`name`,`parentId`,`parentIds`,`permission`,`resourceType`,`url`) VALUES (3,0,'用户删除',1,'0/1','userInfo:del','button','userInfo/userDel');
-INSERT INTO `sys_role` (`id`,`available`,`description`,`role`) VALUES (1,0,'管理员','admin');
-INSERT INTO `sys_role` (`id`,`available`,`description`,`role`) VALUES (2,0,'VIP会员','vip');
-INSERT INTO `sys_role` (`id`,`available`,`description`,`role`) VALUES (3,1,'test','test');
+INSERT INTO `user_info` (`id`,`username`,`name`,`password`,`salt`,`state`) VALUES (''1'', ''admin'', ''管理员'', ''d3c59d25033dbf980d29554025c23a75'', ''8d78869f470951332959580424d4bf4f'', 0);
+INSERT INTO `sys_permission` (`id`,`status`,`name`,`parentId`,`parentIds`,`code`,`resourceType`,`url`) VALUES (1,0,''用户管理'',0,''0/'',''userInfo:view'',''menu'',''userInfo/userList'');
+INSERT INTO `sys_permission` (`id`,`status`,`name`,`parentId`,`parentIds`,`code`,`resourceType`,`url`) VALUES (2,0,''用户添加'',1,''0/1'',''userInfo:add'',''button'',''userInfo/userAdd'');
+INSERT INTO `sys_permission` (`id`,`status`,`name`,`parentId`,`parentIds`,`code`,`resourceType`,`url`) VALUES (3,0,''用户删除'',1,''0/1'',''userInfo:del'',''button'',''userInfo/userDel'');
+INSERT INTO `sys_role` (`id`,`status`,`name`,`code`) VALUES (1,0,''管理员'',''admin'');
+INSERT INTO `sys_role` (`id`,`status`,`name`,`code`) VALUES (2,0,''VIP会员'',''vip'');
+INSERT INTO `sys_role` (`id`,`status`,`name`,`code`) VALUES (3,1,''test'',''test'');
 INSERT INTO `sys_role_permission_mapping` (`id`,`permissionId`,`roleId`) VALUES (1,1,1);
 INSERT INTO `sys_role_permission_mapping` (`id`,`permissionId`,`roleId`) VALUES (2,2,1);
 INSERT INTO `sys_role_permission_mapping` (`id`,`permissionId`,`roleId`) VALUES (3,3,2);

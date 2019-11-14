@@ -1,99 +1,65 @@
 package com.jjh.business.system.user.domain;
 
 import com.jjh.common.model.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 权限实体类
  */
+@ApiModel("权限实体类")
+@Data
 @Entity
 @Table(name = "sys_permission")
 public class SysPermission extends BaseEntity {
-    @Column
-    private String permission; //权限字符串,menu例子：role:*，button例子：role:create,role:update,role:delete,role:view
-    @Column
-    private String name;//名称.
-    @Column(columnDefinition="enum('menu','button')")
-    private String resourceType;//资源类型，[menu|button]
-    @Column
+
+    /** 名称 */
+    @ApiModelProperty("名称")
+    @Column(length = 40)
+    private String name;//名称
+
+    /** 权限代码（menu例子：role:*，button例子：role:create,role:update,role:delete,role:view） */
+    @ApiModelProperty("权限代码（menu例子：role:*，button例子：role:create,role:update,role:delete,role:view）")
+    @Column(length = 40)
+    private String code;
+
+    /** 资源类型（目录/菜单/操作） */
+    @ApiModelProperty("资源类型（目录/菜单/操作）")
+//    @Column(columnDefinition="enum('menu','button')")
+    @Column(length = 40)
+    private String resourceType;
+
+    /** 父编号 */
+    @ApiModelProperty("父编号")
+    @Column(length = 40)
     private Long parentId; //父编号
-    @Column
+
+    /** 父编号列表 */
+    @ApiModelProperty("父编号列表")
+    @Column(length = 40)
     private String parentIds; //父编号列表
-    @Column
+
+    /** 资源路径 */
+    @ApiModelProperty("资源路径")
+    @Column(length = 200)
     private String url;//资源路径.
 
-    @Column
-    private Boolean available = Boolean.FALSE; // 是否可用,如果不可用将不会添加给用户
+    /** 状态（0=正常,1=停用） */
+    @ApiModelProperty("状态（0=正常,1=停用）")
+    @Column(length = 12)
+    private Integer status;
 
+    /** children 子权限 */
+    @ApiModelProperty("children 子权限")
     @Transient
-    private List<SysRole>roleList;
+    private List<SysPermission> children = new ArrayList();
 
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getParentIds() {
-        return parentIds;
-    }
-
-    public void setParentIds(String parentIds) {
-        this.parentIds = parentIds;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Boolean getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
-
-    public List<SysRole> getRoleList() {
-        return roleList;
-    }
-
-    public void setRoleList(List<SysRole> roleList) {
-        this.roleList = roleList;
-    }
 }

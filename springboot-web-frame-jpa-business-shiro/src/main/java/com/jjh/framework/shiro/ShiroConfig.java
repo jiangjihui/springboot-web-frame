@@ -31,6 +31,13 @@ public class ShiroConfig {
         //拦截器.
         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
         // 配置不会被拦截的链接 顺序判断
+        // swagger放行 （https://blog.csdn.net/weixin_42036952/article/details/90298357）
+        filterChainDefinitionMap.put("/doc.html","anon");
+        filterChainDefinitionMap.put("/swagger/**","anon");
+        filterChainDefinitionMap.put("/webjars/**", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**","anon");
+        filterChainDefinitionMap.put("/v2/**","anon");
+
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/test/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
@@ -71,7 +78,6 @@ public class ShiroConfig {
         myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return myShiroRealm;
     }
-
 
     @Bean
     public SecurityManager securityManager(){

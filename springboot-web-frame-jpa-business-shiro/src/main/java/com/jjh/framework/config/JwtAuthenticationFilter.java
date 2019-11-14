@@ -39,17 +39,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }*/
 
         //session验证
-        try {
-            if (isProtectedUrl(request)) {
-                if (request.getAttribute("user") == null) {
-                    throw new IllegalStateException("user is null. ");
-                }
-            }
-        }
-        catch (Exception e){
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,e.getMessage());
-            return;
-        }
+//        try {
+//            if (isProtectedUrl(request)) {
+//                if (request.getAttribute("user") == null) {
+//                    throw new IllegalStateException("user is null. ");
+//                }
+//            }
+//        }
+//        catch (Exception e){
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,e.getMessage());
+//            return;
+//        }
 
         filterChain.doFilter(request,response);
     }

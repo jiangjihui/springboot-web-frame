@@ -1,5 +1,7 @@
 package com.jjh.common.web.form;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
@@ -7,11 +9,22 @@ import java.io.Serializable;
 /**
  * 接口调用返回基础数据类
  */
-public class SimpleResponseForm implements Serializable {
+@ApiModel("响应对象")
+public class SimpleResponseForm<T> implements Serializable {
 
+    private static final int SUCCESS_CODE = 0;
+    private static final String SUCCESS_MESSAGE = "成功";
+
+    @ApiModelProperty(value = "成功标识；true：成功；false:失败", required = true)
     private boolean success;
+
+    @ApiModelProperty(value = "返回状态码；0:成功；其他状态码:失败", required = true)
     private int code = 0;
-    private Object result;
+
+    @ApiModelProperty(value = "结果集")
+    private T result;
+
+    @ApiModelProperty(value = "描述信息")
     private String message;
 
     public boolean isSuccess() {
@@ -30,11 +43,11 @@ public class SimpleResponseForm implements Serializable {
         this.code = code;
     }
 
-    public Object getResult() {
+    public T getResult() {
         return result;
     }
 
-    public void setResult(Object result) {
+    public void setResult(T result) {
         this.result = result;
     }
 
@@ -46,35 +59,39 @@ public class SimpleResponseForm implements Serializable {
         this.message = message;
     }
 
-    public SimpleResponseForm(boolean success,int code, Object result, String message) {
+    public SimpleResponseForm(boolean success,int code, T result, String message) {
         this.success = success;
         this.code = code;
         this.result = result;
         this.message = message;
     }
 
-    public SimpleResponseForm(Object result) {
+    public SimpleResponseForm() {
+        this(true, SUCCESS_CODE, null, SUCCESS_MESSAGE);
+    }
+
+    public SimpleResponseForm(T result) {
         this.result = result;
     }
 
-    public static SimpleResponseForm success(Object result) {
+    public static <T> SimpleResponseForm<T> success(T result) {
         return new SimpleResponseForm(true,0, result,null);
     }
 
-    public static SimpleResponseForm success(Page result) {
-        PageResponseForm form = new PageResponseForm(result.getTotalElements(), result.getContent());
+    public static <T> SimpleResponseForm<T> success(Page result) {
+        PageResponseForm form = new PageResponseForm<T>(result.getTotalElements(), result.getContent());
         return new SimpleResponseForm(true,0, form,null);
     }
 
-    public static SimpleResponseForm error(int code,String message) {
+    public static <T> SimpleResponseForm<T> error(int code,String message) {
         return new SimpleResponseForm(false,code, null,message);
     }
 
-    public static SimpleResponseForm error(String message) {
+    public static <T> SimpleResponseForm<T> error(String message) {
         return new SimpleResponseForm(false,1, null,message);
     }
 
-    public static SimpleResponseForm result(boolean bool,int code,String message,Object result) {
+    public static <T> SimpleResponseForm<T> result(boolean bool,int code,String message,T result) {
         return new SimpleResponseForm(bool,code, result,message);
     }
 }

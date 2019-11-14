@@ -35,7 +35,7 @@ public class WebLogAspect {
      * *(..):最后这个星号表示方法名，*号表示所有的方法，后面括弧里面表示方法的参数，两个句点表示任何参数。
      * https://blog.csdn.net/lang_niu/article/details/51559994
      */
-    @Pointcut("execution(public * com.jjh.business.controllers..*.*(..))")
+    @Pointcut("execution(public * com.jjh.business..*.*(..))")
     public void webLog() {
 
     }
