@@ -52,12 +52,12 @@ public class BaseController {
 
     /**
      * 返回分页数据对象
-     * @param result    数据列表
      * @param pageReqForm   分页查询条件
+     * @param result    数据列表
      * @param <T>   数据对象
      * @return
      */
-    public <T> SimpleResponseForm<PageResponseForm<T>> page(List<T> result, PageRequestForm pageReqForm) {
+    public <T> SimpleResponseForm<PageResponseForm<T>> page(PageRequestForm pageReqForm, List<T> result) {
         PageResponseForm form = new PageResponseForm<T>(pageReqForm.getTotal(), result);
         return new SimpleResponseForm<PageResponseForm<T>>(form);
     }

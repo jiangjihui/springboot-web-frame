@@ -34,21 +34,11 @@ public abstract class BaseEntity implements Serializable {
     @Column(length = 40)
     private String id;
 
-    /** 创建者*/
-    @ApiModelProperty("创建者")
-    @Column(length = 40)
-    private String createBy;
-
     /** 创建日期（yyyy-MM-dd HH:mm:ss）*/
     @ApiModelProperty("创建日期（yyyy-MM-dd HH:mm:ss）")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @CreatedDate
     private Date createTime;
-
-    /** 更新者*/
-    @ApiModelProperty("更新者")
-    @Column(length = 40)
-    private String updateBy;
 
     /** 更新日期（yyyy-MM-dd HH:mm:ss）*/
     @ApiModelProperty("更新日期（yyyy-MM-dd HH:mm:ss）")

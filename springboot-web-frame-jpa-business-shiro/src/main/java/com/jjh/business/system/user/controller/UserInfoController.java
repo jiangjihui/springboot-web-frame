@@ -44,16 +44,17 @@ public class UserInfoController extends BaseController {
     @ApiOperation("用户列表")
     @PostMapping("/list")
     public SimpleResponseForm<PageResponseForm<UserInfo>> list(@RequestBody PageRequestForm<UserInfo> form) {
-        return page(userInfoService.list(form), form);
+        List<UserInfo> list = userInfoService.list(form);
+        return page(form, list);
     }
 
     /**
-     * 添加用户
+     * 新增用户
      * @param entity 用户信息
      * @return 用户信息
      */
     @ApiOperation(value = "保存")
-    @PostMapping("/save")
+    @PostMapping("/add")
     public SimpleResponseForm<UserInfo> add(HttpServletRequest request, @RequestBody UserInfo entity) {
         UserInfo result = userInfoService.add(entity);
         return success(result);

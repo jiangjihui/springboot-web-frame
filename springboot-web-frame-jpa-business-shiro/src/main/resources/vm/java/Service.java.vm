@@ -1,0 +1,54 @@
+package ${package}.service;
+
+import ${package}.domain.${className};
+import com.jjh.common.web.form.PageRequestForm;
+import com.jjh.common.web.form.SimpleForm;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * ${tableComment} 服务层
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Service {
+
+    /**
+     * 查询${tableComment}列表
+     *
+     * @param form 查询条件
+     * @return ${tableComment}集合
+     */
+    public List<${classEntity}> list(PageRequestForm<${classEntity}> form);
+
+    /**
+     * 新增${tableComment}对象
+     *
+     * @param entity 待新增对象
+     * @return ${tableComment}对象
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public ${classEntity} add(${classEntity} entity);
+
+
+    /**
+     * 更新${tableComment}对象
+     *
+     * @param entity 待更新对象
+     * @return ${tableComment}对象
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public ${classEntity} update(${classEntity} entity);
+
+
+    /**
+     * 删除${tableComment}对象
+     *
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean del(String ids);
+}

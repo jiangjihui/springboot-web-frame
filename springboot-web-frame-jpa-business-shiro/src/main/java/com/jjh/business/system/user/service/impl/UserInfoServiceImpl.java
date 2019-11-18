@@ -1,4 +1,4 @@
-package com.jjh.business.system.user.service;
+package com.jjh.business.system.user.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
 import com.jjh.business.system.user.controller.form.ResetPasswordForm;
@@ -8,6 +8,7 @@ import com.jjh.business.system.user.domain.UserInfo;
 import com.jjh.business.system.user.repository.SysPermissionRepository;
 import com.jjh.business.system.user.repository.SysRoleRepository;
 import com.jjh.business.system.user.repository.UserInfoRepository;
+import com.jjh.business.system.user.service.UserInfoService;
 import com.jjh.common.exception.BusinessException;
 import com.jjh.common.util.PojoUtils;
 import com.jjh.common.util.SnowFlake;

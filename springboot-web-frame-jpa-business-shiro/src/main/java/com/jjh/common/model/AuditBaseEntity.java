@@ -1,5 +1,6 @@
 package com.jjh.common.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -25,14 +26,15 @@ public abstract class AuditBaseEntity extends BaseEntity {
 
     protected static final String TABLE_PREFIX = "rz_";
 
+    @ApiModelProperty("创建者")
     @CreatedBy
     @Column(length = 40)
     private String createBy;
 
+    @ApiModelProperty("更新者")
     @LastModifiedBy
     @Column(length = 40)
     private String updateBy;
-
 
 
 }

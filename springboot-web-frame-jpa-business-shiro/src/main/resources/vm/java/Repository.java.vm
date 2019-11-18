@@ -1,0 +1,16 @@
+package ${package}.repository;
+
+import ${package}.domain.${classEntity};
+import com.jjh.framework.jpa.BaseRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * ${tableComment} 数据层
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Repository
+public interface ${className}Repository extends BaseRepository<${classEntity}, String> {
+
+}
