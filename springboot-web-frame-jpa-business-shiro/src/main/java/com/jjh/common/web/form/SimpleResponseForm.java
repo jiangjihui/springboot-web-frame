@@ -78,11 +78,6 @@ public class SimpleResponseForm<T> implements Serializable {
         return new SimpleResponseForm(true,0, result,null);
     }
 
-    public static <T> SimpleResponseForm<T> success(Page result) {
-        PageResponseForm form = new PageResponseForm<T>(result.getTotalElements(), result.getContent());
-        return new SimpleResponseForm(true,0, form,null);
-    }
-
     public static <T> SimpleResponseForm<T> error(int code,String message) {
         return new SimpleResponseForm(false,code, null,message);
     }

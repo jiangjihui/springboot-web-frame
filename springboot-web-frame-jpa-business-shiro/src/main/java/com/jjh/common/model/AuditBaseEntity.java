@@ -23,7 +23,7 @@ import javax.persistence.MappedSuperclass;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AuditBaseEntity extends BaseEntity {
 
-    protected static final String TABLE_PREFIX = "b_";
+    protected static final String TABLE_PREFIX = "rz_";
 
     @CreatedBy
     @Column(length = 40)

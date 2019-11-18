@@ -1,5 +1,6 @@
 package com.jjh.business.system.user.domain;
 
+import com.jjh.common.model.AuditBaseEntity;
 import com.jjh.common.model.BaseEntity;
 
 import javax.persistence.Column;
@@ -7,13 +8,21 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import static com.jjh.business.system.user.domain.UserInfoRoleMapping.TABLE_NAME;
+
 @Entity
-@Table(name = "sys_user_role_mapping")
-public class UserInfoRoleMapping extends BaseEntity {
+@Table(name = TABLE_NAME)
+public class UserInfoRoleMapping extends AuditBaseEntity {
+
+    public static final String TABLE_NAME = TABLE_PREFIX+"sys_user_role_mapping";
+
+    /** 用户编号 */
     @Column
-    private String userId;//用户编号
+    private String userId;
+
+    /** 角色编号 */
     @Column
-    private String roleId;//角色编号
+    private String roleId;
 
     @Transient
     private UserInfo userInfo;

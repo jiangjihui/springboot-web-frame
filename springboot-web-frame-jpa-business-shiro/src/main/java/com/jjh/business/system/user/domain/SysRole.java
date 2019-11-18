@@ -1,5 +1,6 @@
 package com.jjh.business.system.user.domain;
 
+import com.jjh.common.model.AuditBaseEntity;
 import com.jjh.common.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,14 +12,18 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.List;
 
+import static com.jjh.business.system.user.domain.SysRole.TABLE_NAME;
+
 /**
  * 角色实体类
  */
 @ApiModel("角色实体类")
 @Data
 @Entity
-@Table(name = "sys_role")
-public class SysRole extends BaseEntity {
+@Table(name = TABLE_NAME)
+public class SysRole extends AuditBaseEntity {
+
+    public static final String TABLE_NAME = TABLE_PREFIX+"sys_role";
 
     /** 角色名称 */
     @ApiModelProperty("角色名称")

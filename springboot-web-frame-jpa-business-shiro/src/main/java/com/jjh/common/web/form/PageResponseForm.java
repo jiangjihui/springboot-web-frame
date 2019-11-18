@@ -16,7 +16,7 @@ public class PageResponseForm<T> {
 
     /*总记录数*/
     @ApiModelProperty("总记录数")
-    private long total;
+    private Long total;
 
     /*列表数据*/
     @ApiModelProperty("列表数据")

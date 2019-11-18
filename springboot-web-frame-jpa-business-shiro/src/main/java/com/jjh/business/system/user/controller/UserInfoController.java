@@ -5,6 +5,7 @@ import com.jjh.business.system.user.domain.UserInfo;
 import com.jjh.business.system.user.service.UserInfoService;
 import com.jjh.common.web.controller.BaseController;
 import com.jjh.common.web.form.PageRequestForm;
+import com.jjh.common.web.form.PageResponseForm;
 import com.jjh.common.web.form.SimpleForm;
 import com.jjh.common.web.form.SimpleResponseForm;
 import io.swagger.annotations.Api;
@@ -42,9 +43,8 @@ public class UserInfoController extends BaseController {
      */
     @ApiOperation("用户列表")
     @PostMapping("/list")
-    public SimpleResponseForm<List<UserInfo>> list(PageRequestForm form, UserInfo info) {
-        logger.info(info.toString());
-        return success(userInfoService.list(form));
+    public SimpleResponseForm<PageResponseForm<UserInfo>> list(@RequestBody PageRequestForm<UserInfo> form) {
+        return page(userInfoService.list(form), form);
     }
 
     /**

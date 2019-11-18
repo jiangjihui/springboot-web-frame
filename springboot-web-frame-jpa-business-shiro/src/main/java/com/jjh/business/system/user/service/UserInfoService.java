@@ -5,6 +5,7 @@ import com.jjh.business.system.user.controller.form.ResetPasswordForm;
 import com.jjh.business.system.user.domain.UserInfo;
 import com.jjh.common.web.form.PageRequestForm;
 import com.jjh.common.web.form.SimpleForm;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface UserInfoService {
      * @param form 分页请求表单
      * @return
      */
-    List<UserInfo> list(PageRequestForm form);
+    List<UserInfo> list(PageRequestForm<UserInfo> form);
 
     /**
      * 根据用户名查找用户

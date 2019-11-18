@@ -1,6 +1,7 @@
 package com.jjh.business.system.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jjh.common.model.AuditBaseEntity;
 import com.jjh.common.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,14 +12,18 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+import static com.jjh.business.system.user.domain.UserInfo.TABLE_NAME;
+
 /**
  * 用户信息实体类
  */
 @ApiModel("用户信息实体类")
 @Data
 @Entity
-@Table(name = "user_info",indexes = {@Index(columnList = "username")})
-public class UserInfo extends BaseEntity {
+@Table(name = TABLE_NAME,indexes = {@Index(columnList = "username")})
+public class UserInfo extends AuditBaseEntity {
+
+    public static final String TABLE_NAME = TABLE_PREFIX+"user_info";
 
     /** 帐号 */
     @ApiModelProperty("帐号")

@@ -34,8 +34,20 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
      * @return
      */
     @Override
-    public List<T> list(PageRequestForm form) {
-        return super.findAll(buildPage(form)).getContent();
+    public List<T> list(PageRequestForm<T> form) {
+        Page<T> all = null;
+        if (form.getFilter() == null) {
+            all = super.findAll(buildPage(form));
+        }
+        else {
+            // 按条件查询
+            Example<T> example = Example.of(form.getFilter());
+            all = super.findAll(example, buildPage(form));
+        }
+        // 获取查询到的总数
+        form.setTotal(all.getTotalElements());
+        // 返回所有查询到的数据
+        return all.getContent();
     }
 
     /**

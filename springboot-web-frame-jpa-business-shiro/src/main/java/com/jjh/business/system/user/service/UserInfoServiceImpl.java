@@ -14,6 +14,7 @@ import com.jjh.common.util.SnowFlake;
 import com.jjh.common.web.form.PageRequestForm;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +40,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private SysPermissionRepository permissionRepository;
 
     @Override
-    public List<UserInfo> list(PageRequestForm form) {
+    public List<UserInfo> list(PageRequestForm<UserInfo> form) {
         return userInfoRepository.list(form);
     }
 

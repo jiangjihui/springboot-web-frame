@@ -1,8 +1,11 @@
 package com.jjh.common.web.controller;
 
+import com.jjh.common.web.form.PageRequestForm;
 import com.jjh.common.web.form.PageResponseForm;
 import com.jjh.common.web.form.SimpleResponseForm;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * web层通用数据处理
@@ -36,9 +39,27 @@ public class BaseController {
         return SimpleResponseForm.error(message);
     }
 
-    public <T> SimpleResponseForm<T> page(Page<T> result) {
-        PageResponseForm form = new PageResponseForm(result.getTotalElements(), result.getContent());
-        return new SimpleResponseForm(form);
+    /**
+     * 返回分页数据对象
+     * @param result    分页数据
+     * @param <T>   数据对象
+     * @return
+     */
+    public <T> SimpleResponseForm<PageResponseForm<T>> page(Page<T> result) {
+        PageResponseForm form = new PageResponseForm<T>(result.getTotalElements(), result.getContent());
+        return new SimpleResponseForm<PageResponseForm<T>>(form);
+    }
+
+    /**
+     * 返回分页数据对象
+     * @param result    数据列表
+     * @param pageReqForm   分页查询条件
+     * @param <T>   数据对象
+     * @return
+     */
+    public <T> SimpleResponseForm<PageResponseForm<T>> page(List<T> result, PageRequestForm pageReqForm) {
+        PageResponseForm form = new PageResponseForm<T>(pageReqForm.getTotal(), result);
+        return new SimpleResponseForm<PageResponseForm<T>>(form);
     }
 
 

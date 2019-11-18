@@ -23,7 +23,7 @@ public interface BaseRepository<T,ID> extends JpaRepository<T, ID>,JpaSpecificat
      * @param form  分页参数
      * @return
      */
-    List<T> list(PageRequestForm form);
+    List<T> list(PageRequestForm<T> form);
 
     /**
      * 分页获取列表
