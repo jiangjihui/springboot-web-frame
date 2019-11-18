@@ -5,6 +5,8 @@ import com.jjh.business.demo.article.model.Article;
 import com.jjh.common.web.form.SimpleForm;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface IArticleService {
 
     /**
@@ -12,7 +14,7 @@ public interface IArticleService {
      * @param form
      * @return
      */
-    Page<Article> find(PageRequestForm form);
+    Page<Article> list(PageRequestForm form);
 
     /**
      * 保存
@@ -37,4 +39,13 @@ public interface IArticleService {
      * @param form
      */
     void delete(SimpleForm form);
+
+
+    /**
+     * 删除
+     * @param form
+     */
+    void sqlFind(SimpleForm form);
+
+    List<Article> find(Article entity);
 }

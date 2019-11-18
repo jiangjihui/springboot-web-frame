@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface ArticleMapper extends BaseRepository<Article,String> {
 
 
+
 }

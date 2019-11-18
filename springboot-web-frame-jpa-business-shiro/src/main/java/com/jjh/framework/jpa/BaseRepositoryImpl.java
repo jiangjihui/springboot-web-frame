@@ -3,8 +3,10 @@ package com.jjh.framework.jpa;
 import com.jjh.common.exception.BusinessException;
 import com.jjh.common.web.form.PageRequestForm;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -22,6 +24,10 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         this.em = em;
     }
 
+    public static Pageable buildPage(PageRequestForm form) {
+        return PageRequest.of(form.getPageNum(), form.getPageSize());
+    }
+
     /**
      * 分页获取列表
      * @param form  分页参数
@@ -29,7 +35,19 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
      */
     @Override
     public List<T> list(PageRequestForm form) {
-        return super.findAll(PageRequest.of(form.getPageNum(),form.getPageSize())).getContent();
+        return super.findAll(buildPage(form)).getContent();
+    }
+
+    /**
+     * 分页获取列表
+     * @param form  分页参数
+     * @param entity  查询条件
+     * @return
+     */
+    @Override
+    public List<T> list(PageRequestForm form, T entity) {
+        Example<T> example = Example.of(entity);
+        return this.findAll(example, buildPage(form)).getContent();
     }
 
     /**
@@ -40,6 +58,16 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     @Override
     public Page<T> find(PageRequestForm form) {
         return super.findAll(PageRequest.of(form.getPageNum(),form.getPageSize()));
+    }
+
+    /**
+     * 执行SQL查询
+     * @param sql
+     * @return
+     */
+    @Override
+    public List listBySQL(String sql, Class resultClass) {
+        return em.createNativeQuery(sql, resultClass).getResultList();
     }
 
     /**

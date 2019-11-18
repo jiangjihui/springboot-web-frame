@@ -10,6 +10,7 @@ import com.jjh.business.system.user.repository.SysRoleRepository;
 import com.jjh.business.system.user.repository.UserInfoRepository;
 import com.jjh.common.exception.BusinessException;
 import com.jjh.common.util.PojoUtils;
+import com.jjh.common.util.SnowFlake;
 import com.jjh.common.web.form.PageRequestForm;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -75,6 +76,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public UserInfo add(UserInfo userInfo) {
+        userInfo.setId(SnowFlake.nextId());
         String username = userInfo.getUsername();
         String password = userInfo.getPassword();
 

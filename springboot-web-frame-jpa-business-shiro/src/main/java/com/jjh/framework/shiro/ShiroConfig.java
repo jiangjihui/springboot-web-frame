@@ -38,6 +38,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/swagger-resources/**","anon");
         filterChainDefinitionMap.put("/v2/**","anon");
 
+        filterChainDefinitionMap.put("/article/**", "anon");
+
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/test/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");

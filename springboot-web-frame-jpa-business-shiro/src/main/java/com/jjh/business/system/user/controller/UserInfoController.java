@@ -41,8 +41,9 @@ public class UserInfoController extends BaseController {
      * @return 用户列表
      */
     @ApiOperation("用户列表")
-    @GetMapping("/list")
-    public SimpleResponseForm<List<UserInfo>> list(PageRequestForm form) {
+    @PostMapping("/list")
+    public SimpleResponseForm<List<UserInfo>> list(PageRequestForm form, UserInfo info) {
+        logger.info(info.toString());
         return success(userInfoService.list(form));
     }
 

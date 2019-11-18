@@ -32,7 +32,7 @@ public abstract class BaseEntity implements Serializable {
     @ApiModelProperty("唯一编号（ID）")
     @Id
     @Column(length = 40)
-    private String id = SnowFlake.nextId();
+    private String id;
 
     /** 创建者*/
     @ApiModelProperty("创建者")

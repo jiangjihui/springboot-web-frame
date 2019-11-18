@@ -28,9 +28,25 @@ public interface BaseRepository<T,ID> extends JpaRepository<T, ID>,JpaSpecificat
     /**
      * 分页获取列表
      * @param form  分页参数
+     * @param entity  查询条件
+     * @return
+     */
+    List<T> list(PageRequestForm form,T entity);
+
+    /**
+     * 分页获取列表
+     * @param form  分页参数
      * @return
      */
     Page<T> find(PageRequestForm form);
+
+    /**
+     * 执行SQL查询
+     * @param sql
+     * @param resultClass
+     * @return
+     */
+    List listBySQL(String sql, Class resultClass);
 
     /**
      * 执行SQL查询

@@ -1,5 +1,7 @@
 package com.jjh.business.demo.article.service.impl;
 
+import com.jjh.common.util.JpaVOUtils;
+import com.jjh.business.demo.article.vo.UserInfoVO;
 import com.jjh.common.util.PojoUtils;
 import com.jjh.common.web.form.PageRequestForm;
 import com.jjh.business.demo.article.dao.ArticleMapper;
@@ -8,10 +10,14 @@ import com.jjh.business.demo.article.model.Article;
 import com.jjh.business.demo.article.service.IArticleService;
 import com.jjh.common.web.form.SimpleForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * 文章 服务层实现
@@ -28,7 +34,7 @@ public class ArticleServiceImpl implements IArticleService {
      * @return
      */
     @Override
-    public Page<Article> find(PageRequestForm form) {
+    public Page<Article> list(PageRequestForm form) {
         return articleMapper.find(form);
     }
 
@@ -80,5 +86,27 @@ public class ArticleServiceImpl implements IArticleService {
             throw new BusinessException("id不能为空");
         }
         articleMapper.deleteById(form.getId());
+    }
+
+    @Override
+    public void sqlFind(SimpleForm form) {
+        List<Object[]> objects = articleMapper.listBySQL("SELECT\n" +
+                "A.createTime,\n" +
+                "A.username\n" +
+                " from sys_user where username='admin'");
+
+        List<UserInfoVO> entity = JpaVOUtils.castEntity(objects, UserInfoVO.class);
+        for (UserInfoVO userInfoVO : entity) {
+            System.out.println(userInfoVO.toString());
+        }
+    }
+
+    @Override
+    public List<Article> find(Article entity) {
+        // OR条件
+//        ExampleMatcher matcher = ExampleMatcher.matchingAny();
+        Example<Article> example = Example.of(entity);
+        List<Article> all = articleMapper.findAll(example);
+        return all;
     }
 }

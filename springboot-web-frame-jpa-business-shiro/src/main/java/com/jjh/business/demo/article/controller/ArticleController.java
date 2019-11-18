@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +30,7 @@ public class ArticleController extends BaseController {
      */
     @GetMapping("/list")
     public Object list(PageRequestForm form) {
-        Page<Article> result = articleService.find(form);
+        Page<Article> result = articleService.list(form);
         return page(result);
     }
 
@@ -77,6 +78,27 @@ public class ArticleController extends BaseController {
     public Object delete(SimpleForm form) {
         articleService.delete(form);
         return success("OK");
+    }
+
+    /**
+     * sqlFind
+     * @param form
+     * @return
+     */
+    @GetMapping("/sqlFind")
+    public Object sqlFind(SimpleForm form) {
+        articleService.sqlFind(form);
+        return success("OK");
+    }
+
+    /**
+     * find
+     * @param entity
+     * @return
+     */
+    @PostMapping("/find")
+    public Object find(Article entity) {
+        return success(articleService.find(entity));
     }
 
 }
