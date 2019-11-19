@@ -9,9 +9,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 /*开启jpa审计*/
 @EnableJpaAuditing
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 @EnableScheduling
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class Application {
 
     public static void main(String[] args) {
