@@ -1,7 +1,6 @@
-package com.jjh.business.system.user.domain;
+package com.jjh.business.system.user.model;
 
 import com.jjh.common.model.AuditBaseEntity;
-import com.jjh.common.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,7 +12,7 @@ import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.jjh.business.system.user.domain.SysPermission.TABLE_NAME;
+import static com.jjh.business.system.user.model.SysPermission.TABLE_NAME;
 
 /**
  * 权限实体类

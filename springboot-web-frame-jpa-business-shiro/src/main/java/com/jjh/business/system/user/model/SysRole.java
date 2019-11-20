@@ -1,7 +1,6 @@
-package com.jjh.business.system.user.domain;
+package com.jjh.business.system.user.model;
 
 import com.jjh.common.model.AuditBaseEntity;
-import com.jjh.common.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,10 +11,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.List;
 
-import static com.jjh.business.system.user.domain.SysRole.TABLE_NAME;
+import static com.jjh.business.system.user.model.SysRole.TABLE_NAME;
 
 /**
  * 角色实体类
+ *
+ * @author jjh
+ * @date 2019/11/19
  */
 @ApiModel("角色实体类")
 @Data

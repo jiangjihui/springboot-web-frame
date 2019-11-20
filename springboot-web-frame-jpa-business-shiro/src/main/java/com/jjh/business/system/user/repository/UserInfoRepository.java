@@ -1,6 +1,6 @@
 package com.jjh.business.system.user.repository;
 
-import com.jjh.business.system.user.domain.UserInfo;
+import com.jjh.business.system.user.model.UserInfo;
 import com.jjh.framework.jpa.BaseRepository;
 import org.springframework.stereotype.Repository;
 

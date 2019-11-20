@@ -1,14 +1,13 @@
-package com.jjh.business.system.user.domain;
+package com.jjh.business.system.user.model;
 
 import com.jjh.common.model.AuditBaseEntity;
-import com.jjh.common.model.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import static com.jjh.business.system.user.domain.UserInfoRoleMapping.TABLE_NAME;
+import static com.jjh.business.system.user.model.UserInfoRoleMapping.TABLE_NAME;
 
 @Entity
 @Table(name = TABLE_NAME)

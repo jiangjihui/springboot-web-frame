@@ -2,9 +2,9 @@ package com.jjh.business.system.user.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
 import com.jjh.business.system.user.controller.form.ResetPasswordForm;
-import com.jjh.business.system.user.domain.SysPermission;
-import com.jjh.business.system.user.domain.SysRole;
-import com.jjh.business.system.user.domain.UserInfo;
+import com.jjh.business.system.user.model.SysPermission;
+import com.jjh.business.system.user.model.SysRole;
+import com.jjh.business.system.user.model.UserInfo;
 import com.jjh.business.system.user.repository.SysPermissionRepository;
 import com.jjh.business.system.user.repository.SysRoleRepository;
 import com.jjh.business.system.user.repository.UserInfoRepository;
@@ -15,7 +15,6 @@ import com.jjh.common.util.SnowFlake;
 import com.jjh.common.web.form.PageRequestForm;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

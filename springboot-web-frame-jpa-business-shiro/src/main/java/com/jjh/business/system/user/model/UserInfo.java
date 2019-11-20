@@ -1,21 +1,21 @@
-package com.jjh.business.system.user.domain;
+package com.jjh.business.system.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jjh.common.model.AuditBaseEntity;
-import com.jjh.common.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-import static com.jjh.business.system.user.domain.UserInfo.TABLE_NAME;
+import static com.jjh.business.system.user.model.UserInfo.TABLE_NAME;
 
 /**
  * 用户信息实体类
+ *
+ * @author jjh
+ * @date 2019/11/19
  */
 @ApiModel("用户信息实体类")
 @Data

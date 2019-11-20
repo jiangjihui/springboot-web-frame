@@ -1,6 +1,6 @@
 package com.jjh.framework.shiro;
 
-import com.jjh.business.system.user.domain.UserInfo;
+import com.jjh.business.system.user.model.UserInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.session.Session;

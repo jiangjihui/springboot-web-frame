@@ -1,6 +1,6 @@
 package com.jjh.business.system.user.repository;
 
-import com.jjh.business.system.user.domain.SysRole;
+import com.jjh.business.system.user.model.SysRole;
 import com.jjh.framework.jpa.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

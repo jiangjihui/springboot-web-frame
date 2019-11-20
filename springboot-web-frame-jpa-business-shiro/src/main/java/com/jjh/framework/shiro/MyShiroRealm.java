@@ -1,8 +1,8 @@
 package com.jjh.framework.shiro;
 
-import com.jjh.business.system.user.domain.SysPermission;
-import com.jjh.business.system.user.domain.SysRole;
-import com.jjh.business.system.user.domain.UserInfo;
+import com.jjh.business.system.user.model.SysPermission;
+import com.jjh.business.system.user.model.SysRole;
+import com.jjh.business.system.user.model.UserInfo;
 import com.jjh.business.system.user.service.UserInfoService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;

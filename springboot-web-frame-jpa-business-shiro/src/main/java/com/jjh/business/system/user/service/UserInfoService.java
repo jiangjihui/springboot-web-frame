@@ -2,10 +2,8 @@ package com.jjh.business.system.user.service;
 
 
 import com.jjh.business.system.user.controller.form.ResetPasswordForm;
-import com.jjh.business.system.user.domain.UserInfo;
+import com.jjh.business.system.user.model.UserInfo;
 import com.jjh.common.web.form.PageRequestForm;
-import com.jjh.common.web.form.SimpleForm;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
