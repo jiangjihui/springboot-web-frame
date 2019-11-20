@@ -1,6 +1,6 @@
 package ${package}.repository;
 
-import ${package}.domain.${classEntity};
+import ${package}.model.${classEntity};
 import com.jjh.framework.jpa.BaseRepository;
 import org.springframework.stereotype.Repository;
 

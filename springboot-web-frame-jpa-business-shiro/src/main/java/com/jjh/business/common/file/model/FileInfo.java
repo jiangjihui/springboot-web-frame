@@ -30,21 +30,21 @@ public class FileInfo extends AuditBaseEntity {
     /** 文件名称*/
     @ApiModelProperty("文件名称")
     @Column(length = 100)
-    private String filename = "";
+    private String filename;
 
     /** 实际文件名*/
     @ApiModelProperty("实际文件名")
-    @Column
+    @Column(length = 100)
     private String fileKey;
 
     /** 文件内容的md5摘要*/
     @ApiModelProperty("文件内容的md5摘要")
-    @Column
-    private String fileMd5 = "";
+    @Column(length = 100)
+    private String fileMd5;
 
     /** 文件大小*/
     @ApiModelProperty("文件大小")
     @Column
-    private long fileSize = 0L;
+    private Long fileSize;
 
 }

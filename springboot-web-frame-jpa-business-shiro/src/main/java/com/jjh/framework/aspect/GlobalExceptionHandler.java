@@ -4,6 +4,7 @@ import com.jjh.common.web.form.SimpleResponseForm;
 import com.jjh.common.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -32,18 +33,20 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    public SimpleResponseForm<Object> validationBodyException(MethodArgumentNotValidException exception){
-        BindingResult result = exception.getBindingResult();
-        StringBuilder msg = new StringBuilder();
-        if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            errors.forEach(p ->{
-                FieldError fieldError = (FieldError) p;
-                msg.append(fieldError.getDefaultMessage()).append(";");
-//                logger.error("数据校验失败 : object{"+fieldError.getObjectName()+"},field{"+fieldError.getField()+ "},errorMessage{"+fieldError.getDefaultMessage()+"}");
-            });
-        }
-        return SimpleResponseForm.error(400, "请填写正确信息：" + msg.toString());
+    public SimpleResponseForm<Object> methodArgumentNotValidException(MethodArgumentNotValidException exception){
+        return validBindingResult(exception.getBindingResult());
+    }
+
+    /**
+     *  校验错误拦截处理（比如@NotBlank等）
+     *
+     * @param exception 错误信息集合
+     * @return 错误信息
+     */
+    @ExceptionHandler(BindException.class)
+    @ResponseBody
+    public SimpleResponseForm<Object> bindException(BindException exception){
+        return validBindingResult(exception.getBindingResult());
     }
 
     @ExceptionHandler(value = Exception.class)
@@ -56,4 +59,22 @@ public class GlobalExceptionHandler {
         return SimpleResponseForm.error(500,"服务器异常："+e.getMessage());
     }
 
+
+    /**
+     * 获取校验结果中的错误信息
+     * @param result    校验结果
+     * @return
+     */
+    public static SimpleResponseForm<Object> validBindingResult(BindingResult result) {
+        StringBuilder msg = new StringBuilder();
+        if (result.hasErrors()) {
+            List<ObjectError> errors = result.getAllErrors();
+            errors.forEach(p ->{
+                FieldError fieldError = (FieldError) p;
+                msg.append(fieldError.getDefaultMessage()).append(";");
+//                logger.error("数据校验失败 : object{"+fieldError.getObjectName()+"},field{"+fieldError.getField()+ "},errorMessage{"+fieldError.getDefaultMessage()+"}");
+            });
+        }
+        return SimpleResponseForm.error(400, "请填写正确信息：" + msg.toString());
+    }
 }

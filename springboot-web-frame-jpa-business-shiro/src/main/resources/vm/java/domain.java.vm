@@ -1,16 +1,14 @@
-package ${package}.domain;
+package ${package}.model;
 
-import com.jjh.business.common.model.AuditBaseEntity;
+import com.jjh.common.model.AuditBaseEntity;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import static ${package}.domain.${classEntity}.TABLE_NAME;
+import static ${package}.model.${classEntity}.TABLE_NAME;
 
 /**
  * ${tableComment}信息

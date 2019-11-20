@@ -10,6 +10,7 @@ import com.jjh.business.system.user.repository.SysRoleRepository;
 import com.jjh.business.system.user.repository.UserInfoRepository;
 import com.jjh.business.system.user.service.UserInfoService;
 import com.jjh.common.exception.BusinessException;
+import com.jjh.common.util.IdGenerateHelper;
 import com.jjh.common.util.PojoUtils;
 import com.jjh.common.util.SnowFlake;
 import com.jjh.common.web.form.PageRequestForm;
@@ -77,7 +78,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public UserInfo add(UserInfo userInfo) {
-        userInfo.setId(SnowFlake.nextId());
+        userInfo.setId(IdGenerateHelper.nextId());
         String username = userInfo.getUsername();
         String password = userInfo.getPassword();
 
@@ -92,8 +93,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         // 密码加密（与shiro密码校验时的解密机制一致）
         String passwd = new SimpleHash("MD5", password, username + salt, 2).toString();
         userInfo.setPassword(passwd);
-        userInfoRepository.save(userInfo);
-        return userInfo;
+        return userInfoRepository.save(userInfo);
     }
 
     /**
@@ -108,8 +108,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             throw new BusinessException("未找到该用户，请检查");
         }
         PojoUtils.copyPropertiesIgnoreNull(entity, userInfo);
-        userInfoRepository.save(userInfo);
-        return userInfo;
+        return userInfoRepository.save(userInfo);
     }
 
     /**

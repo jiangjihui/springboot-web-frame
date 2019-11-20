@@ -1,10 +1,11 @@
 package ${package}.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import ${package}.domain.${classEntity};
+import ${package}.model.${classEntity};
 import ${package}.service.${className}Service;
 import ${package}.repository.${className}Repository;
 import com.jjh.common.exception.BusinessException;
+import com.jjh.common.util.IdGenerateHelper;
 import com.jjh.common.util.PojoUtils;
 import com.jjh.common.web.form.PageRequestForm;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,8 @@ public class ${className}ServiceImpl implements ${className}Service {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ${classEntity} add(${classEntity} entity) {
-        ${classname}Repository.save(entity);
-        return entity;
+        entity.setId(IdGenerateHelper.nextId());
+        return ${classname}Repository.save(entity);
     }
 
     /**
@@ -66,8 +67,7 @@ public class ${className}ServiceImpl implements ${className}Service {
         }
         //对象属性复制
         PojoUtils.copyPropertiesIgnoreNull(entity, oldEntity);
-        ${classname}Repository.save(oldEntity);
-        return entity;
+        return ${classname}Repository.save(oldEntity);
     }
 
     /**

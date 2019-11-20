@@ -1,6 +1,7 @@
 package com.jjh.business.common.gen.controller;
 
-import com.jjh.business.common.gen.controller.dto.GenEntityDTO;
+import com.jjh.business.common.gen.controller.form.GenEntityForm;
+import com.jjh.business.common.gen.controller.form.GenTargetPathForm;
 import com.jjh.business.common.gen.service.GenService;
 import com.jjh.common.web.controller.BaseController;
 import com.jjh.common.web.form.SimpleResponseForm;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * 代码生成
@@ -39,7 +42,7 @@ public class GenController extends BaseController {
      */
     @ApiOperation("生成实体相关代码")
     @PostMapping("/gen_code")
-    public SimpleResponseForm<String> genCode(GenEntityDTO dto) {
+    public SimpleResponseForm<String> genCode(GenEntityForm dto) {
         dto.setAuthor("jjh");
         genService.generatorCodeForEntity(dto);
         return success();
@@ -48,17 +51,12 @@ public class GenController extends BaseController {
 
     /**
      * 生成指定目录下的实体相关代码
-     * @param packagePath 指定的目录（包含到model包名）
-     * @param author 作者
+     * @param form
      */
     @ApiOperation(value = "生成指定目录下的实体相关代码", notes = "包含到实体所在包下的目录")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType="query", name = "packagePath", value = "指定的目录（包含到model包名）", required = true, dataType = "String"),
-            @ApiImplicitParam(paramType="query", name = "author", value = "作者", required = true, dataType = "String")
-    })
     @GetMapping("/gen_code_to_target_path")
-    public SimpleResponseForm<String> genCodeToTargetPath(String packagePath, String author) throws Exception {
-        genService.genCodeFromTargetPath(packagePath, author);
+    public SimpleResponseForm<String> genCodeToTargetPath(@Valid GenTargetPathForm form) throws Exception {
+        genService.genCodeFromTargetPath(form);
         return success();
     }
 

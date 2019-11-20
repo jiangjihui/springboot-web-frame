@@ -3,7 +3,8 @@ package com.jjh.business.common.gen.service.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import com.jjh.business.common.gen.controller.dto.GenEntityDTO;
+import com.jjh.business.common.gen.controller.form.GenEntityForm;
+import com.jjh.business.common.gen.controller.form.GenTargetPathForm;
 import com.jjh.business.common.gen.service.GenService;
 import com.jjh.common.exception.BusinessException;
 import com.jjh.framework.plugin.VelocityInitializer;
@@ -37,7 +38,7 @@ public class GenServiceImpl implements GenService {
      * @return 数据
      */
     @Override
-    public void generatorCodeForEntity(GenEntityDTO dto) {
+    public void generatorCodeForEntity(GenEntityForm dto) {
         String moduleName = dto.getModuleName();
         String className = dto.getClassName();
         String comment = dto.getComment();
@@ -64,12 +65,12 @@ public class GenServiceImpl implements GenService {
 
     /**
      * 生成指定目录下的实体相关代码
-     * @param packagePath 指定的目录（包含到model包名）
-     * @param author 作者
+     * @param form
      */
     @Override
-    public void genCodeFromTargetPath(String packagePath, String author) {
-
+    public void genCodeFromTargetPath(GenTargetPathForm form) {
+        String packagePath = form.getPackagePath();
+        String author = form.getAuthor();
         if (StrUtil.isBlank(packagePath)) {
             throw new BusinessException("目录不能为空");
         }
@@ -81,12 +82,16 @@ public class GenServiceImpl implements GenService {
         try {
             for (File file : modelFileArray) {
                 String className = FileUtil.mainName(file.getName());
+                // 忽略排除项
+                if (StrUtil.isNotBlank(form.getExcludeEntity()) && form.getExcludeEntity().contains(className)) {
+                    continue;
+                }
                 String classPackageName = packageName + "." + className;
                 Class<?> clazz = Class.forName(classPackageName);
                 // 获取对应的注解（方便获取注解内的值）
                 ApiModel apiModel = clazz.getAnnotation(ApiModel.class);
 
-                GenEntityDTO dto = new GenEntityDTO();
+                GenEntityForm dto = new GenEntityForm();
                 String packageParentName = packageName.substring(0, packageName.lastIndexOf("."));
                 String moduleName = StrUtil.subAfter(packageName, "business.", false).replace(".", "/");
                 moduleName = moduleName.substring(0, moduleName.lastIndexOf("/"));
@@ -111,7 +116,7 @@ public class GenServiceImpl implements GenService {
      * @param context
      * @param dto
      */
-    public static void velocityApply(VelocityContext context, GenEntityDTO dto) {
+    public static void velocityApply(VelocityContext context, GenEntityForm dto) {
         // 获取模板列表
         List<String> templates = new ArrayList<String>();
         templates.add("vm/java/Service.java.vm");
@@ -149,7 +154,7 @@ public class GenServiceImpl implements GenService {
     /**
      * 获取文件名
      */
-    public static String getFileName(String template, GenEntityDTO dto)
+    public static String getFileName(String template, GenEntityForm dto)
     {
         String packageName = dto.getPackageName();
         String className = dto.getClassName();

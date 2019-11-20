@@ -1,5 +1,6 @@
 package com.jjh.business.demo.article.service.impl;
 
+import com.jjh.common.util.IdGenerateHelper;
 import com.jjh.common.util.JpaVOUtils;
 import com.jjh.business.demo.article.vo.UserInfoVO;
 import com.jjh.common.util.PojoUtils;
@@ -48,6 +49,7 @@ public class ArticleServiceImpl implements IArticleService {
         if (StringUtils.isEmpty(article.getTitle())) {
             throw new BusinessException("标题不能为空");
         }
+        article.setId(IdGenerateHelper.nextId());
         articleMapper.save(article);
     }
 

@@ -1,6 +1,6 @@
 package ${package}.service;
 
-import ${package}.domain.${className};
+import ${package}.model.${className};
 import com.jjh.common.web.form.PageRequestForm;
 import com.jjh.common.web.form.SimpleForm;
 import org.springframework.transaction.annotation.Transactional;

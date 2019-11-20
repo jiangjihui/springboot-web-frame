@@ -1,16 +1,18 @@
-package com.jjh.business.common.gen.controller.dto;
+package com.jjh.business.common.gen.controller.form;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * GenEntityDTO
+ * 生成指定路径下的代码 表单
  *
  * @author jjh
  * @date 2019/11/13
  **/
+@ApiModel("生成指定路径代码 表单")
 @Data
-public class GenEntityDTO {
+public class GenEntityForm {
 
     /** 所属分类*/
     @ApiModelProperty("所属分类")
