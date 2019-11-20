@@ -12,11 +12,15 @@ public interface GenService {
 
     /**
      * 生成实体相关代码
-     *
      * @param dto 实体类信息
-     * @return 数据
      */
     void generatorCodeForEntity(GenEntityDTO dto);
 
 
+    /**
+     * 生成指定目录下的实体相关代码
+     * @param packagePath 指定的目录（包含到model包名）
+     * @param author 作者
+     */
+    void genCodeFromTargetPath(String packagePath, String author);
 }

@@ -2,26 +2,24 @@ package com.jjh.business.common.gen.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import com.jjh.business.common.gen.controller.dto.GenEntityDTO;
 import com.jjh.business.common.gen.service.GenService;
 import com.jjh.common.exception.BusinessException;
 import com.jjh.framework.plugin.VelocityInitializer;
+import io.swagger.annotations.ApiModel;
 import org.apache.commons.lang.StringUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * 代码生成 服务层处理
@@ -29,6 +27,8 @@ import java.util.zip.ZipOutputStream;
  */
 @Service
 public class GenServiceImpl implements GenService {
+
+    private static final Logger logger = LoggerFactory.getLogger(GenServiceImpl.class);
 
     /**
      * 生成实体相关代码
@@ -53,16 +53,65 @@ public class GenServiceImpl implements GenService {
         velocityContext.put("classEntity", className);
         velocityContext.put("classname", classname);
         velocityContext.put("moduleName", moduleName);
-        velocityContext.put("package", packageName + "." + classname);
+        velocityContext.put("package", packageName);
         velocityContext.put("author", dto.getAuthor());
         velocityContext.put("datetime", DateUtil.formatDate(new Date()).replace("-","/"));
 
         // 生成压缩文件
-        velocityContext(velocityContext, dto);
+        velocityApply(velocityContext, dto);
 
     }
 
-    public static void velocityContext(VelocityContext context, GenEntityDTO dto) {
+    /**
+     * 生成指定目录下的实体相关代码
+     * @param packagePath 指定的目录（包含到model包名）
+     * @param author 作者
+     */
+    @Override
+    public void genCodeFromTargetPath(String packagePath, String author) {
+
+        if (StrUtil.isBlank(packagePath)) {
+            throw new BusinessException("目录不能为空");
+        }
+        // 获取各个类
+        File[] modelFileArray = new File(packagePath).listFiles();
+        String prefix = "src\\main\\java\\";
+        String packageName = packagePath.substring(packagePath.lastIndexOf(prefix) + prefix.length(), packagePath.length()).replace("\\",".");
+
+        try {
+            for (File file : modelFileArray) {
+                String className = FileUtil.mainName(file.getName());
+                String classPackageName = packageName + "." + className;
+                Class<?> clazz = Class.forName(classPackageName);
+                // 获取对应的注解（方便获取注解内的值）
+                ApiModel apiModel = clazz.getAnnotation(ApiModel.class);
+
+                GenEntityDTO dto = new GenEntityDTO();
+                String packageParentName = packageName.substring(0, packageName.lastIndexOf("."));
+                String moduleName = StrUtil.subAfter(packageName, "business.", false).replace(".", "/");
+                moduleName = moduleName.substring(0, moduleName.lastIndexOf("/"));
+                dto.setAuthor(author);
+                dto.setModuleName(moduleName);
+                dto.setClassName(className);
+                dto.setPackageName(packageParentName);
+                dto.setComment(apiModel.value());
+                dto.setTargetPath(packagePath);
+
+                logger.info(dto.toString());
+
+                this.generatorCodeForEntity(dto);
+            }
+        } catch (Exception e) {
+            throw new BusinessException("反射获取类信息异常", e);
+        }
+    }
+
+    /**
+     * 
+     * @param context
+     * @param dto
+     */
+    public static void velocityApply(VelocityContext context, GenEntityDTO dto) {
         // 获取模板列表
         List<String> templates = new ArrayList<String>();
         templates.add("vm/java/Service.java.vm");
@@ -106,13 +155,15 @@ public class GenServiceImpl implements GenService {
         String className = dto.getClassName();
         // 小写类名
         String classname = StringUtils.uncapitalize(className);
-        // 大写类名
-        String javaPath = "D://";
-
-        if (StringUtils.isNotEmpty(classname))
-        {
-            javaPath += classname.replace(".", "/") + "/";
+        String javaPath = "D:\\";
+        if (StrUtil.isNotBlank(dto.getTargetPath())) {
+            javaPath = dto.getTargetPath().substring(0, dto.getTargetPath().lastIndexOf("\\") + 1);
         }
+
+//        if (StringUtils.isNotEmpty(classname))
+//        {
+//            javaPath += classname.replace(".", "/") + "/";
+//        }
 
         if (template.contains("domain.java.vm"))
         {

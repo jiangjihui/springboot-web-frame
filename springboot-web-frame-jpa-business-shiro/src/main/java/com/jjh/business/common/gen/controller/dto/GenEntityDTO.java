@@ -32,4 +32,8 @@ public class GenEntityDTO {
     @ApiModelProperty("作者")
     private String author;
 
+    /** 目的文件路径*/
+    @ApiModelProperty("目的文件路径")
+    private String targetPath;
+
 }
