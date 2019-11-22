@@ -38,12 +38,14 @@ public abstract class BaseEntity implements Serializable {
     @ApiModelProperty("创建日期（yyyy-MM-dd HH:mm:ss）")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @CreatedDate
+    @Column(columnDefinition = "DATETIME(3)")
     private Date createTime;
 
     /** 更新日期（yyyy-MM-dd HH:mm:ss）*/
     @ApiModelProperty("更新日期（yyyy-MM-dd HH:mm:ss）")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @LastModifiedDate
+    @Column(columnDefinition = "DATETIME(3)")
     private Date updateTime;
 
 
