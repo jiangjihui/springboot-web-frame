@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.util.StringUtils;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class MyShiroRealm extends AuthorizingRealm {
@@ -35,14 +36,11 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         UserInfo userInfo = (UserInfo) principalCollection.getPrimaryPrincipal();
-        List<SysRole> roleList = userInfo.getRoleList();
-        for (SysRole role : roleList) {
-            authorizationInfo.addRole(role.getCode());
-            List<SysPermission> permissionList = role.getPermissionList();
-            for (SysPermission permission : permissionList) {
-                authorizationInfo.addStringPermission(permission.getCode());
-            }
-        }
+
+        // 从用户信息获取，不重复调用接口获取角色权限。（直接将权限信息缓存到用户信息，随用户信息走）
+        authorizationInfo.setRoles(new HashSet<String>(userInfo.getRoleCode()));
+        authorizationInfo.setStringPermissions(new HashSet<String>(userInfo.getPermissionCode()));
+
         return authorizationInfo;
     }
 
@@ -61,6 +59,14 @@ public class MyShiroRealm extends AuthorizingRealm {
         if(userInfo == null){
             return null;
         }
+
+        //获取用户角色
+        List<String> roleList = userInfoService.listSysRoleCode(userInfo.getId());
+        // 获取用户权限
+        List<String> permissionList = userInfoService.listSysPermissionCode(userInfo.getId());
+        userInfo.setRoleCode(roleList);
+        userInfo.setPermissionCode(permissionList);
+
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 userInfo, //用户名
                 userInfo.getPassword(), //密码

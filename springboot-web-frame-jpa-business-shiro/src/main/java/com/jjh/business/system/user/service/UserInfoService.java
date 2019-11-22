@@ -54,4 +54,16 @@ public interface UserInfoService {
      * @param form 密码表单
      */
     UserInfo resetPassword(ResetPasswordForm form);
+
+    /**
+     *  获取角色Code
+     * @param id    用户ID
+     */
+    List<String> listSysRoleCode(String id);
+
+    /**
+     *  获取权限Code
+     * @param id    用户ID
+     */
+    List<String> listSysPermissionCode(String id);
 }

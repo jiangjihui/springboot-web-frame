@@ -9,6 +9,7 @@ import com.jjh.common.web.form.PageResponseForm;
 import com.jjh.common.web.form.SimpleResponseForm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class UserInfoController extends BaseController {
      * @param form 分页请求参数
      * @return 用户列表
      */
+    @RequiresPermissions("system:userInfo:list")
     @ApiOperation("用户列表")
     @PostMapping("/list")
     public SimpleResponseForm<PageResponseForm<UserInfo>> list(@RequestBody PageRequestForm<UserInfo> form) {

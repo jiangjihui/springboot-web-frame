@@ -52,22 +52,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      */
     @Override
     public UserInfo findByUsername(String username) {
-        UserInfo userInfo = userInfoRepository.findByUsername(username);
-        if (userInfo == null) {
-            return null;
-        }
-        // 获取角色权限信息
-        List<SysRole> roleList = roleRepository.findByUserInfoId(userInfo.getId());
-        if (CollectionUtils.isNotEmpty(roleList)) {
-            for (SysRole sysRole : roleList) {
-                List<SysPermission> permissionList = permissionRepository.findBySysRoleId(sysRole.getId());
-                if (CollectionUtils.isNotEmpty(permissionList)) {
-                    sysRole.setPermissionList(permissionList);
-                }
-            }
-            userInfo.setRoleList(roleList);
-        }
-        return userInfo;
+        return userInfoRepository.findByUsername(username);
     }
 
     /**
@@ -134,6 +119,24 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setPassword(SecureUtil.sha1(form.getNewPassword()));
         userInfoRepository.save(userInfo);
         return userInfo;
+    }
+
+    /**
+     *  获取角色Code
+     * @param id    用户ID
+     */
+    @Override
+    public List<String> listSysRoleCode(String id) {
+        return userInfoRepository.listSysRoleCode(id);
+    }
+
+    /**
+     *  获取权限Code
+     * @param id    用户ID
+     */
+    @Override
+    public List<String> listSysPermissionCode(String id) {
+        return userInfoRepository.listSysPermissionCode(id);
     }
 
 }

@@ -2,6 +2,7 @@ package com.jjh.framework.aspect;
 
 import com.jjh.common.web.form.SimpleResponseForm;
 import com.jjh.common.exception.BusinessException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -23,6 +24,18 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    /**
+     *  权限异常处理（比如无访问权限）
+     *
+     * @param exception 错误信息集合
+     * @return 错误信息
+     */
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseBody
+    public SimpleResponseForm<Object> unauthorizedException(UnauthorizedException exception){
+        return SimpleResponseForm.error(400, "权限异常，您当前没有访问权限。"+exception.getMessage());
+    }
 
     /**
      *  校验错误拦截处理（比如@NotBlank等）

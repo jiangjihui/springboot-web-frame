@@ -50,6 +50,16 @@ public class UserInfo extends AuditBaseEntity {
     @Column(length = 12)
     private Integer state;
 
+    /** 角色Code */
+    @ApiModelProperty("角色Code")
+    @Transient
+    private List<String> roleCode;
+
+    /** 权限Code */
+    @ApiModelProperty("权限Code")
+    @Transient
+    private List<String> permissionCode;
+
     /** 角色列表 */
     @ApiModelProperty("角色列表")
     @Transient
