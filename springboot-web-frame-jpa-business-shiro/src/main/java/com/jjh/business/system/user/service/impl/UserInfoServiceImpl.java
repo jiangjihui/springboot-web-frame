@@ -1,6 +1,8 @@
 package com.jjh.business.system.user.service.impl;
 
+import cn.hutool.Hutool;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.jjh.business.system.user.controller.form.ResetPasswordForm;
 import com.jjh.business.system.user.model.SysPermission;
 import com.jjh.business.system.user.model.SysRole;
@@ -10,11 +12,13 @@ import com.jjh.business.system.user.repository.SysRoleRepository;
 import com.jjh.business.system.user.repository.UserInfoRepository;
 import com.jjh.business.system.user.service.UserInfoService;
 import com.jjh.common.exception.BusinessException;
+import com.jjh.common.util.EncryptUtils;
 import com.jjh.common.util.IdGenerateHelper;
 import com.jjh.common.util.PojoUtils;
 import com.jjh.common.util.SnowFlake;
 import com.jjh.common.web.form.PageRequestForm;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +80,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         String salt = System.currentTimeMillis()+"";
         userInfo.setSalt(salt);
         // 密码加密（与shiro密码校验时的解密机制一致）
-        String passwd = new SimpleHash("MD5", password, username + salt, 2).toString();
+        String passwd = EncryptUtils.encryptPassword(username, password, userInfo.getSalt());
         userInfo.setPassword(passwd);
         return userInfoRepository.save(userInfo);
     }
@@ -116,7 +120,8 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (userInfo == null) {
             throw new BusinessException("用户不存在，请检查");
         }
-        userInfo.setPassword(SecureUtil.sha1(form.getNewPassword()));
+        String passwd = EncryptUtils.encryptPassword(userInfo.getUsername(), form.getNewPassword(), userInfo.getSalt());
+        userInfo.setPassword(passwd);
         userInfoRepository.save(userInfo);
         return userInfo;
     }

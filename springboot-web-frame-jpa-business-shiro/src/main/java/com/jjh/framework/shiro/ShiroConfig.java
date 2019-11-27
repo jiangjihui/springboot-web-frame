@@ -1,6 +1,9 @@
 package com.jjh.framework.shiro;
 
+import com.jjh.framework.jwt.JwtFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -10,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -50,9 +55,19 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/register", "anon");
         filterChainDefinitionMap.put("/403", "anon");
         filterChainDefinitionMap.put("/logout", "logout");
+
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-        filterChainDefinitionMap.put("/**", "authc");
+//        filterChainDefinitionMap.put("/**", "authc");
+
+        /* JWT 结合 Shiro*/
+        // 添加自己的过滤器并且取名为jwt
+        Map<String, Filter> filterMap = new LinkedHashMap<>(1);
+        filterMap.put("jwt", new JwtFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+        // 所有请求通过我们自己的JWT Filter
+        filterChainDefinitionMap.put("/**", "jwt");
+
         // 登录成功后要跳转的链接
         shiroFilterFactoryBean.setSuccessUrl("/index");
 
@@ -67,25 +82,29 @@ public class ShiroConfig {
      * ）
      * @return
      */
-    @Bean
+/*    @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列两次，相当于 md5(md5(""))；需要与注册时加密的方式一致
+        hashedCredentialsMatcher.setHashAlgorithmName("sha256");//散列算法
+        hashedCredentialsMatcher.setHashIterations(1);//散列的次数，比如散列两次，相当于 md5(md5(""))；需要与注册时加密的方式一致
         return hashedCredentialsMatcher;
-    }
+    }*/
+
 
     @Bean
-    public MyShiroRealm myShiroRealm(){
-        MyShiroRealm myShiroRealm = new MyShiroRealm();
-        myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-        return myShiroRealm;
-    }
-
-    @Bean
-    public SecurityManager securityManager(){
+    public SecurityManager securityManager(MyShiroRealm myShiroRealm){
         DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
-        securityManager.setRealm(myShiroRealm());
+        securityManager.setRealm(myShiroRealm);
+
+        /*
+         * 关闭shiro自带的session，详情见文档
+         * http://shiro.apache.org/session-management.html#SessionManagement-StatelessApplications%28Sessionless%29
+         */
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        securityManager.setSubjectDAO(subjectDAO);
         return securityManager;
     }
 

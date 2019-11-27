@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 import static com.jjh.business.system.user.model.UserInfo.TABLE_NAME;
@@ -26,6 +27,7 @@ public class UserInfo extends AuditBaseEntity {
     public static final String TABLE_NAME = TABLE_PREFIX+"user_info";
 
     /** 帐号 */
+    @NotBlank(message = "用户名不能为空")
     @ApiModelProperty("帐号")
     @Column(length = 120)
     private String username;
@@ -36,11 +38,14 @@ public class UserInfo extends AuditBaseEntity {
     private String name;
 
     /** 密码 */
+    @JsonIgnore
+    @NotBlank(message = "密码不能为空")
     @ApiModelProperty("密码")
     @Column(length = 255)
     private String password;
 
     /** 加密密码的盐 */
+    @JsonIgnore
     @ApiModelProperty("加密密码的盐")
     @Column(length = 255)
     private String salt;
@@ -49,6 +54,11 @@ public class UserInfo extends AuditBaseEntity {
     @ApiModelProperty("用户状态 0:创建未认证（比如没有激活，没有输入验证码等等）--等待验证的用户 , 1:正常状态,2：用户被锁定")
     @Column(length = 12)
     private Integer state;
+
+    /** token */
+    @ApiModelProperty("token")
+    @Transient
+    private String token;
 
     /** 角色Code */
     @ApiModelProperty("角色Code")

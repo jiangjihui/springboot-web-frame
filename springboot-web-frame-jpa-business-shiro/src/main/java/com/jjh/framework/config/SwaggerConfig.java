@@ -1,17 +1,23 @@
 package com.jjh.framework.config;
 
+import com.jjh.framework.jwt.JWTConstants;
 import com.jjh.framework.properties.ApplicationInfoProperties;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Swagger2API文档的配置
@@ -37,7 +43,8 @@ public class SwaggerConfig {
                 //.apis(RequestHandlerSelectors.basePackage("com.ruoyi.project.tool.swagger"))
                 // 扫描所有 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .securitySchemes(Collections.singletonList(securityScheme()));
     }
 
 
@@ -49,4 +56,17 @@ public class SwaggerConfig {
                 .version(ApplicationInfoProperties.getVersion())
                 .build();
     }
+
+
+    /***
+     * oauth2配置
+     * 需要增加swagger授权回调地址
+     * http://localhost:8888/webjars/springfox-swagger-ui/o2c.html
+     * @return
+     */
+    @Bean
+    SecurityScheme securityScheme() {
+        return new ApiKey(JWTConstants.X_ACCESS_TOKEN, JWTConstants.X_ACCESS_TOKEN, "header");
+    }
+
 }

@@ -17,16 +17,4 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-
-    /**
-     * 引入JWT
-     * @return
-     */
-    /*@Bean
-    public FilterRegistrationBean jwtFilter(){
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
-        registrationBean.setFilter(filter);
-        return registrationBean;
-    }*/
 }
