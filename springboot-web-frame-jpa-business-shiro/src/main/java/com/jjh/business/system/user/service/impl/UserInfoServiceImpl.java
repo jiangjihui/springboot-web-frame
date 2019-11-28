@@ -77,7 +77,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             throw new BusinessException("用户名已存在，请检查~");
         }
 
-        String salt = System.currentTimeMillis()+"";
+        String salt = String.valueOf(System.currentTimeMillis());
         userInfo.setSalt(salt);
         // 密码加密（与shiro密码校验时的解密机制一致）
         String passwd = EncryptUtils.encryptPassword(username, password, userInfo.getSalt());

@@ -44,6 +44,7 @@ public class SwaggerConfig {
                 // 扫描所有 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
+                // Authorize配置：https://blog.csdn.net/github_39939645/article/details/80114248
                 .securitySchemes(Collections.singletonList(securityScheme()));
     }
 
