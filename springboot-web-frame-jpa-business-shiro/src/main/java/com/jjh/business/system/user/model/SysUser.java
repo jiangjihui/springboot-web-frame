@@ -1,16 +1,20 @@
 package com.jjh.business.system.user.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jjh.common.model.AuditBaseEntity;
+import com.jjh.framework.plugin.excel.Excel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 import java.util.List;
 
-import static com.jjh.business.system.user.model.UserInfo.TABLE_NAME;
+import static com.jjh.business.system.user.model.SysUser.TABLE_NAME;
 
 /**
  * 用户信息实体类
@@ -22,38 +26,79 @@ import static com.jjh.business.system.user.model.UserInfo.TABLE_NAME;
 @Data
 @Entity
 @Table(name = TABLE_NAME,indexes = {@Index(columnList = "username")})
-public class UserInfo extends AuditBaseEntity {
+public class SysUser extends AuditBaseEntity {
 
-    public static final String TABLE_NAME = TABLE_PREFIX+"user_info";
+    public static final String TABLE_NAME = TABLE_PREFIX+"sys_user";
 
     /** 帐号 */
+    @Excel(name = "帐号")
     @NotBlank(message = "用户名不能为空")
     @ApiModelProperty("帐号")
     @Column(length = 120)
     private String username;
 
     /** 名称 */
+    @Excel(name = "名称")
     @ApiModelProperty("名称")
     @Column(length = 120)
     private String name;
 
     /** 密码 */
-    @JsonIgnore
+    @Excel(name = "密码", type = Excel.Type.IMPORT)
     @NotBlank(message = "密码不能为空")
     @ApiModelProperty("密码")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(length = 255)
     private String password;
 
     /** 加密密码的盐 */
     @JsonIgnore
     @ApiModelProperty("加密密码的盐")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(length = 255)
     private String salt;
 
-    /** 用户状态 0:创建未认证（比如没有激活，没有输入验证码等等）--等待验证的用户 , 1:正常状态,2：用户被锁定 */
-    @ApiModelProperty("用户状态 0:创建未认证（比如没有激活，没有输入验证码等等）--等待验证的用户 , 1:正常状态,2：用户被锁定")
+    /** 头像 */
+    @ApiModelProperty("头像")
+    @Column(length = 255)
+    private String avatar;
+
+    /** 生日 */
+    @Excel(name = "生日", dateFormat = "yyyy-MM-dd")
+    @ApiModelProperty("生日")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @Column
+    private Date birthday;
+
+    /** 性别 */
+    @ApiModelProperty("性别")
+    @Column
+    private Integer sex;
+
+    /** 电子邮件 */
+    @ApiModelProperty("电子邮件")
+    @Column(length = 255)
+    private String email;
+
+    /** 电话 */
+    @ApiModelProperty("电话")
+    @Column(length = 40)
+    private String phone;
+
+    /** 部门code */
+    @ApiModelProperty("部门code")
+    @Column(length = 40)
+    private String orgCode;
+
+    /** 状态  */
+    @ApiModelProperty("状态")
     @Column(length = 12)
-    private Integer state;
+    private Integer status;
+
+    /** 工号，唯一键  */
+    @ApiModelProperty("工号，唯一键")
+    @Column(length = 40)
+    private String workNo;
 
     /** token */
     @ApiModelProperty("token")

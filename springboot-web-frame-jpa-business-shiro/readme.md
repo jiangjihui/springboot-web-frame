@@ -83,6 +83,7 @@ mvn package -DskipTests
 
 ## 资料文档  
 
+* 参考系统： https://gitee.com/jeecg/jeecg-boot
 * 接口文档： http://localhost:8084/doc.html
 
 ## FAQ  

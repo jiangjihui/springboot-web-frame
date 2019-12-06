@@ -21,8 +21,16 @@ public interface SysRoleRepository extends BaseRepository<SysRole, String> {
      *
      * @return
      */
-    @Query("select r from SysRole r,UserInfoRoleMapping m where r.id = m.roleId and m.userId = ?1")
+    @Query("select r from SysRole r,SysUserRoleMapping m where r.id = m.roleId and m.userId = ?1")
     List<SysRole> findByUserInfoId(String userInfoId);
 
+
+    /**
+     * 查询所有角色
+     *
+     * @param status 状态
+     * @return 角色列表
+     */
+    List<SysRole> findByStatus(Integer status);
 
 }

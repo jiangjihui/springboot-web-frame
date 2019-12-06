@@ -2,7 +2,7 @@ package ${package}.controller;
 
 
 import ${package}.model.${classEntity};
-import ${package}.service.${className}Service;
+import ${package}.service.${ClassName}Service;
 import com.jjh.common.web.controller.BaseController;
 import com.jjh.common.web.form.PageRequestForm;
 import com.jjh.common.web.form.PageResponseForm;
@@ -24,11 +24,11 @@ import java.util.List;
 */
 @Api(tags = "${tableComment}管理")
 @RestController
-@RequestMapping("/api/${moduleName}/${classname}")
-public class ${className}Controller extends BaseController {
+@RequestMapping("/${moduleName}/${classname}")
+public class ${ClassName}Controller extends BaseController {
 
     @Autowired
-    private ${className}Service ${classname}Service;
+    private ${ClassName}Service ${className}Service;
 
 
     /**
@@ -37,7 +37,7 @@ public class ${className}Controller extends BaseController {
     @ApiOperation("${tableComment}列表")
     @PostMapping("/list")
     public SimpleResponseForm<PageResponseForm<${classEntity}>> list(@RequestBody PageRequestForm<${classEntity}> form) {
-        List<${classEntity}> list = ${classname}Service.list(form);
+        List<${classEntity}> list = ${className}Service.list(form);
         return page(form, list);
     }
 
@@ -47,7 +47,7 @@ public class ${className}Controller extends BaseController {
     @ApiOperation("新增${tableComment}")
     @PostMapping("/add")
     public SimpleResponseForm<${classEntity}> add(HttpServletRequest request, @RequestBody ${classEntity} entity) {
-        ${classEntity} result = ${classname}Service.add(entity);
+        ${classEntity} result = ${className}Service.add(entity);
         return success(result);
     }
 
@@ -57,7 +57,7 @@ public class ${className}Controller extends BaseController {
     @ApiOperation("更新${tableComment}")
     @PostMapping("/update")
     public SimpleResponseForm<${classEntity}> update(HttpServletRequest request, @RequestBody ${classEntity} entity) {
-        ${classEntity} result = ${classname}Service.update(entity);
+        ${classEntity} result = ${className}Service.update(entity);
         return success(result);
     }
 
@@ -67,7 +67,7 @@ public class ${className}Controller extends BaseController {
     @ApiOperation("删除${tableComment}")
     @GetMapping("/delete")
     public SimpleResponseForm<String> delete(String ids) {
-        ${classname}Service.del(ids);
+        ${className}Service.del(ids);
         return success();
     }
 

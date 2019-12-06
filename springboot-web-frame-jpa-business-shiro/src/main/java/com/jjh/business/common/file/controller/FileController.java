@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Api(tags = "文件处理")
 @Controller
-@RequestMapping("/api/common")
+@RequestMapping("/common")
 public class FileController extends BaseController {
 
     @Autowired

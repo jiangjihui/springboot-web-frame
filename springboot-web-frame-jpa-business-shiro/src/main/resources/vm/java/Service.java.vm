@@ -1,6 +1,6 @@
 package ${package}.service;
 
-import ${package}.model.${className};
+import ${package}.model.${classEntity};
 import com.jjh.common.web.form.PageRequestForm;
 import com.jjh.common.web.form.SimpleForm;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author ${author}
  * @date ${datetime}
  */
-public interface ${className}Service {
+public interface ${ClassName}Service {
 
     /**
      * 查询${tableComment}列表
@@ -21,7 +21,7 @@ public interface ${className}Service {
      * @param form 查询条件
      * @return ${tableComment}集合
      */
-    public List<${classEntity}> list(PageRequestForm<${classEntity}> form);
+    List<${classEntity}> list(PageRequestForm<${classEntity}> form);
 
     /**
      * 新增${tableComment}对象
@@ -30,7 +30,7 @@ public interface ${className}Service {
      * @return ${tableComment}对象
      */
     @Transactional(rollbackFor = Exception.class)
-    public ${classEntity} add(${classEntity} entity);
+    ${classEntity} add(${classEntity} entity);
 
 
     /**
@@ -40,7 +40,7 @@ public interface ${className}Service {
      * @return ${tableComment}对象
      */
     @Transactional(rollbackFor = Exception.class)
-    public ${classEntity} update(${classEntity} entity);
+    ${classEntity} update(${classEntity} entity);
 
 
     /**
@@ -50,5 +50,5 @@ public interface ${className}Service {
      * @return 结果
      */
     @Transactional(rollbackFor = Exception.class)
-    public boolean del(String ids);
+    boolean del(String ids);
 }

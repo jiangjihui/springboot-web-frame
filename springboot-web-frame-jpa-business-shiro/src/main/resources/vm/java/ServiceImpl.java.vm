@@ -2,8 +2,8 @@ package ${package}.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import ${package}.model.${classEntity};
-import ${package}.service.${className}Service;
-import ${package}.repository.${className}Repository;
+import ${package}.service.${ClassName}Service;
+import ${package}.repository.${ClassName}Repository;
 import com.jjh.common.exception.BusinessException;
 import com.jjh.common.util.IdGenerateHelper;
 import com.jjh.common.util.PojoUtils;
@@ -22,10 +22,10 @@ import java.util.Objects;
  * @date ${datetime}
  */
 @Service
-public class ${className}ServiceImpl implements ${className}Service {
+public class ${ClassName}ServiceImpl implements ${ClassName}Service {
 
     @Resource
-    private ${className}Repository ${classname}Repository;
+    private ${ClassName}Repository ${className}Repository;
 
 
     /**
@@ -36,7 +36,7 @@ public class ${className}ServiceImpl implements ${className}Service {
      */
     @Override
     public List<${classEntity}> list(PageRequestForm<${classEntity}> form) {
-        return ${classname}Repository.list(form);
+        return ${className}Repository.list(form);
     }
 
     /**
@@ -49,7 +49,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     @Override
     public ${classEntity} add(${classEntity} entity) {
         entity.setId(IdGenerateHelper.nextId());
-        return ${classname}Repository.save(entity);
+        return ${className}Repository.save(entity);
     }
 
     /**
@@ -61,13 +61,10 @@ public class ${className}ServiceImpl implements ${className}Service {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ${classEntity} update(${classEntity} entity) {
-        ${classEntity} oldEntity = ${classname}Repository.findById(entity.getId()).get();
-        if (Objects.isNull(oldEntity)) {
-            throw new BusinessException("对象不存在，请检查");
-        }
+        ${classEntity} oldEntity = ${className}Repository.findById(entity.getId()).orElseThrow(() -> new BusinessException("未找到该对象，请检查"));
         //对象属性复制
         PojoUtils.copyPropertiesIgnoreNull(entity, oldEntity);
-        return ${classname}Repository.save(oldEntity);
+        return ${className}Repository.save(oldEntity);
     }
 
     /**
@@ -79,7 +76,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean del(String ids) {
-        ${classname}Repository.deleteMany(ids.split(","));
+        ${className}Repository.deleteMany(ids.split(","));
         return true;
     }
 

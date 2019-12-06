@@ -6,8 +6,6 @@ import com.jjh.business.common.gen.service.GenService;
 import com.jjh.common.web.controller.BaseController;
 import com.jjh.common.web.form.SimpleResponseForm;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

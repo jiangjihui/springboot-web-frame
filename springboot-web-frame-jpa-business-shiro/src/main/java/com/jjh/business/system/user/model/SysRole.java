@@ -37,8 +37,13 @@ public class SysRole extends AuditBaseEntity {
     @Column(length = 40)
     private String code;
 
-    /** 状态（启用/停用） */
-    @ApiModelProperty("状态（0=启用,1=停用）")
+    /** 描述 */
+    @ApiModelProperty("描述")
+    @Column(length = 200)
+    private String description;
+
+    /** 状态 */
+    @ApiModelProperty("状态")
     @Column(length = 12)
     private Integer status;
 

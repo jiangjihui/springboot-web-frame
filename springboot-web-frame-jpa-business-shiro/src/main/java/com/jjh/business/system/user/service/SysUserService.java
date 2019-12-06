@@ -1,8 +1,10 @@
 package com.jjh.business.system.user.service;
 
 
+import com.jjh.business.system.user.controller.form.QueryUserForm;
 import com.jjh.business.system.user.controller.form.ResetPasswordForm;
-import com.jjh.business.system.user.model.UserInfo;
+import com.jjh.business.system.user.controller.form.UserFrozenForm;
+import com.jjh.business.system.user.model.SysUser;
 import com.jjh.common.web.form.PageRequestForm;
 
 import java.util.List;
@@ -13,35 +15,35 @@ import java.util.List;
  * @author jjh
  * @date 2019/9/20
  */
-public interface UserInfoService {
+public interface SysUserService {
 
     /**
      * 用户列表
      * @param form 分页请求表单
      * @return
      */
-    List<UserInfo> list(PageRequestForm<UserInfo> form);
+    List<SysUser> list(PageRequestForm<QueryUserForm> form);
 
     /**
      * 根据用户名查找用户
      * @param username  用户名
      * @return
      */
-    UserInfo findByUsername(String username);
+    SysUser findByUsername(String username);
 
     /**
      * 添加用户
-     * @param userInfo 用户信息
+     * @param sysUser 用户信息
      * @return 用户信息
      */
-    UserInfo add(UserInfo userInfo);
+    SysUser add(SysUser sysUser);
 
     /**
      * 更新用户
      * @param entity 用户信息
      * @return 用户信息
      */
-    UserInfo update(UserInfo entity);
+    SysUser update(SysUser entity);
 
     /**
      * 删除用户
@@ -53,7 +55,7 @@ public interface UserInfoService {
      *  更新用户密码
      * @param form 密码表单
      */
-    UserInfo resetPassword(ResetPasswordForm form);
+    SysUser resetPassword(ResetPasswordForm form);
 
     /**
      *  获取角色Code
@@ -66,4 +68,18 @@ public interface UserInfoService {
      * @param id    用户ID
      */
     List<String> listSysPermissionCode(String id);
+
+    /**
+     * 冻结/解冻
+     * @param list
+     * @return
+     */
+    void frozen(List<UserFrozenForm> list);
+
+    /**
+     * 导入数据
+     * @param list
+     * @param updateSupport 是否更新现有数据
+     */
+    void importData(List<SysUser> list, Boolean updateSupport);
 }

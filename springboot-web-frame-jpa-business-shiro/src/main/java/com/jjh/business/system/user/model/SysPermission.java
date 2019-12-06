@@ -25,36 +25,50 @@ public class SysPermission extends AuditBaseEntity {
 
     public static final String TABLE_NAME = TABLE_PREFIX+"sys_permission";
 
+    /** 父编号 */
+    @ApiModelProperty("父编号")
+    @Column(length = 40)
+    private String parentId;
+
     /** 名称 */
     @ApiModelProperty("名称")
     @Column(length = 40)
-    private String name;//名称
+    private String name;
 
     /** 权限代码（menu例子：role:*，button例子：role:create,role:update,role:delete,role:view） */
     @ApiModelProperty("权限代码（menu例子：role:*，button例子：role:create,role:update,role:delete,role:view）")
     @Column(length = 40)
     private String code;
 
-    /** 资源类型（目录/菜单/操作） */
-    @ApiModelProperty("资源类型（目录/菜单/操作）")
-//    @Column(columnDefinition="enum('menu','button')")
+    /** 类型（0：一级菜单；1：子菜单 ；2：按钮权限） */
+    @ApiModelProperty("类型（0：一级菜单；1：子菜单 ；2：按钮权限）")
     @Column(length = 40)
-    private String resourceType;
+    private String menuType;
 
-    /** 父编号 */
-    @ApiModelProperty("父编号")
-    @Column(length = 40)
-    private Long parentId; //父编号
-
-    /** 父编号列表 */
-    @ApiModelProperty("父编号列表")
-    @Column(length = 40)
-    private String parentIds; //父编号列表
-
-    /** 资源路径 */
-    @ApiModelProperty("资源路径")
+    /** 菜单图标 */
+    @ApiModelProperty("菜单图标")
     @Column(length = 200)
-    private String url;//资源路径.
+    private String icon;
+
+    /** 组件 */
+    @ApiModelProperty("组件")
+    @Column(length = 100)
+    private String component;
+
+    /** 路径 */
+    @ApiModelProperty("路径")
+    @Column(length = 100)
+    private String url;
+
+    /** 菜单排序 */
+    @ApiModelProperty("菜单排序")
+    @Column
+    private Integer sortNo;
+
+    /** 描述 */
+    @ApiModelProperty("描述")
+    @Column(length = 200)
+    private String description;
 
     /** 状态（0=正常,1=停用） */
     @ApiModelProperty("状态（0=正常,1=停用）")

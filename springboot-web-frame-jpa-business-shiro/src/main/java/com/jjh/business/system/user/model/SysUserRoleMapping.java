@@ -7,11 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import static com.jjh.business.system.user.model.UserInfoRoleMapping.TABLE_NAME;
+import static com.jjh.business.system.user.model.SysUserRoleMapping.TABLE_NAME;
 
 @Entity
 @Table(name = TABLE_NAME)
-public class UserInfoRoleMapping extends AuditBaseEntity {
+public class SysUserRoleMapping extends AuditBaseEntity {
 
     public static final String TABLE_NAME = TABLE_PREFIX+"sys_user_role_mapping";
 
@@ -24,7 +24,7 @@ public class UserInfoRoleMapping extends AuditBaseEntity {
     private String roleId;
 
     @Transient
-    private UserInfo userInfo;
+    private SysUser sysUser;
     @Transient
     private SysRole role;
 
@@ -44,12 +44,12 @@ public class UserInfoRoleMapping extends AuditBaseEntity {
         this.roleId = roleId;
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
+    public SysUser getSysUser() {
+        return sysUser;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
     }
 
     public SysRole getRole() {

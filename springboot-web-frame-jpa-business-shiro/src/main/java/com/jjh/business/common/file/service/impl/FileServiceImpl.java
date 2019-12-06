@@ -1,6 +1,5 @@
 package com.jjh.business.common.file.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
@@ -45,7 +44,7 @@ public class FileServiceImpl implements FileService {
         String fileKey = UUID.randomUUID().toString() + "." + FileUtil.extName(uploadFileName);
 
         // 上传的文件路径
-        String fileName = getResourcePath() + File.separator + fileKey;
+        String fileName = FileProperties.getResourcePath() + File.separator + fileKey;
 
         File destFile = initFile(fileName);
         try {
@@ -81,7 +80,7 @@ public class FileServiceImpl implements FileService {
     public void downloadFile(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
         String realFileName = fileName;
         // 下载的文件路径
-        String filePath = getResourcePath() + File.separator + fileName;
+        String filePath = FileProperties.getResourcePath() + File.separator + fileName;
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/dto-data");
         response.setHeader("Content-Disposition",
@@ -95,14 +94,6 @@ public class FileServiceImpl implements FileService {
         if (Boolean.TRUE.equals(delete)){
             FileUtil.del(filePath);
         }
-    }
-
-    /**
-     * 获取资源文件路径
-     * @return  文件路径
-     */
-    public static String getResourcePath() {
-        return FileProperties.getBasePath() + File.separator + FileProperties.getResourceDir();
     }
 
     /**

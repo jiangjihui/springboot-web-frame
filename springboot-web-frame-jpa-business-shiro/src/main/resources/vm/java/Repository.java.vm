@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @date ${datetime}
  */
 @Repository
-public interface ${className}Repository extends BaseRepository<${classEntity}, String> {
+public interface ${ClassName}Repository extends BaseRepository<${classEntity}, String> {
 
 }

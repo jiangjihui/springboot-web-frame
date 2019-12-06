@@ -3,6 +3,8 @@ package com.jjh.framework.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+
 /**
  * 文件配置
  *
@@ -45,5 +47,13 @@ public class FileProperties {
 
     public void setMaxUploadFileSize(Integer maxUploadFileSize) {
         FileProperties.maxUploadFileSize = maxUploadFileSize;
+    }
+
+    /**
+     * 获取资源文件路径
+     * @return  文件路径
+     */
+    public static String getResourcePath() {
+        return FileProperties.getBasePath() + File.separator + FileProperties.getResourceDir();
     }
 }

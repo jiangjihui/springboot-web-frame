@@ -7,7 +7,7 @@ import com.jjh.business.common.gen.controller.form.GenEntityForm;
 import com.jjh.business.common.gen.controller.form.GenTargetPathForm;
 import com.jjh.business.common.gen.service.GenService;
 import com.jjh.common.exception.BusinessException;
-import com.jjh.framework.plugin.VelocityInitializer;
+import com.jjh.framework.plugin.velocity.VelocityInitializer;
 import io.swagger.annotations.ApiModel;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
@@ -40,7 +40,7 @@ public class GenServiceImpl implements GenService {
     @Override
     public void generatorCodeForEntity(GenEntityForm dto) {
         String moduleName = dto.getModuleName();
-        String className = dto.getClassName();
+        String ClassName = dto.getClassName();
         String comment = dto.getComment();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         VelocityInitializer.initVelocity();
@@ -48,10 +48,12 @@ public class GenServiceImpl implements GenService {
         // java对象数据传递到模板文件vm
         VelocityContext velocityContext = new VelocityContext();
         String packageName = dto.getPackageName();
-        String classname = StringUtils.uncapitalize(className);
+        String className = StringUtils.uncapitalize(ClassName);
+        String classname = StrUtil.toUnderlineCase(ClassName);
         velocityContext.put("tableComment", comment);
+        velocityContext.put("ClassName", ClassName);
+        velocityContext.put("classEntity", ClassName);
         velocityContext.put("className", className);
-        velocityContext.put("classEntity", className);
         velocityContext.put("classname", classname);
         velocityContext.put("moduleName", moduleName);
         velocityContext.put("package", packageName);

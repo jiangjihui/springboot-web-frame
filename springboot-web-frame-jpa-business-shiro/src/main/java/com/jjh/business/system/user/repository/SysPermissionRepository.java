@@ -24,4 +24,17 @@ public interface SysPermissionRepository extends BaseRepository<SysPermission, S
     @Query("select p from SysPermission p,RolePermissionMapping m where p.id = m.permissionId and m.roleId = ?1")
     List<SysPermission> findBySysRoleId(String sysRoleId);
 
+    /**
+     * 根据权限ID删除权限
+     * @param permissionId  权限ID
+     */
+    void deleteByParentId(String permissionId);
+
+    /**
+     * 根据权限ID删除权限
+     * @param status  状态
+     * @return 角色列表
+     */
+    List<SysPermission> findByStatusOrderBySortNo(Integer status);
+
 }

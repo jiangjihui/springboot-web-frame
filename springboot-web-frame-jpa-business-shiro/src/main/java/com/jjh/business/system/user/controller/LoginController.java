@@ -1,22 +1,17 @@
 package com.jjh.business.system.user.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.jjh.business.system.user.controller.form.LoginForm;
-import com.jjh.business.system.user.model.UserInfo;
-import com.jjh.business.system.user.service.UserInfoService;
+import com.jjh.business.system.user.model.SysUser;
+import com.jjh.business.system.user.service.SysUserService;
 import com.jjh.common.exception.BusinessException;
+import com.jjh.common.key.CacheConstants;
 import com.jjh.common.util.EncryptUtils;
 import com.jjh.common.web.controller.BaseController;
 import com.jjh.common.web.form.SimpleResponseForm;
 import com.jjh.framework.jwt.JwtUtil;
-import com.jjh.framework.shiro.ShiroUtils;
+import com.jjh.framework.redis.RedisRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 登录接口
@@ -38,7 +35,9 @@ import javax.validation.Valid;
 public class LoginController extends BaseController {
 
     @Autowired
-    private UserInfoService userInfoService;
+    private SysUserService sysUserService;
+    @Autowired
+    private RedisRepository redisRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -48,25 +47,33 @@ public class LoginController extends BaseController {
      */
     @ApiOperation("用户登录")
     @PostMapping("/login")
-    public SimpleResponseForm<UserInfo> login(@RequestBody LoginForm form) {
+    public SimpleResponseForm<SysUser> login(@Valid @RequestBody LoginForm form) {
         String username = form.getUsername();
         String password = form.getPassword();
 
-        // 用户校验
-        checkLoginForm(form);
-        UserInfo userInfo = userInfoService.findByUsername(username);
-        if (userInfo == null) {
+        SysUser sysUser = sysUserService.findByUsername(username);
+        if (sysUser == null) {
             throw new BusinessException("未找到该用户，请重新再试");
         }
-        String passwd = EncryptUtils.encryptPassword(username, password, userInfo.getSalt());
-        if (!passwd.equals(userInfo.getPassword())) {
+        String passwd = EncryptUtils.encryptPassword(username, password, sysUser.getSalt());
+        if (!passwd.equals(sysUser.getPassword())) {
             throw new BusinessException("密码错误，请检查后重新再试");
         }
 
         // 生成token
         String sign = JwtUtil.sign(username, passwd);
-        userInfo.setToken(sign);
-        return success(userInfo);
+        redisRepository.set(CacheConstants.SYS_USER_TOKEN, sign, sign, JwtUtil.EXPIRE_TIME * 2, TimeUnit.MILLISECONDS);
+
+        sysUser.setToken(sign);
+
+        //获取用户角色
+        List<String> roleList = sysUserService.listSysRoleCode(sysUser.getId());
+        // 获取用户权限
+        List<String> permissionList = sysUserService.listSysPermissionCode(sysUser.getId());
+        sysUser.setRoleCode(roleList);
+        sysUser.setPermissionCode(permissionList);
+
+        return success(sysUser);
 
         // Shiro安全验证
 /*        Subject subject = SecurityUtils.getSubject();
@@ -107,21 +114,9 @@ public class LoginController extends BaseController {
      */
     @ApiOperation("用户注册")
     @PostMapping("/register")
-    public SimpleResponseForm<UserInfo> register(@Valid @RequestBody UserInfo userInfo) throws Exception {
-        UserInfo user = userInfoService.add(userInfo);
+    public SimpleResponseForm<SysUser> register(@Valid @RequestBody SysUser sysUser) throws Exception {
+        SysUser user = sysUserService.add(sysUser);
         return success(user);
     }
 
-    /**
-     * 登录表单校验
-     * @param form
-     */
-    public void checkLoginForm(LoginForm form) {
-        if (StrUtil.isBlank(form.getUsername())) {
-            throw new BusinessException("用户名不能为空");
-        }
-        if (StrUtil.isBlank(form.getPassword())) {
-            throw new BusinessException("密码不能为空");
-        }
-    }
 }

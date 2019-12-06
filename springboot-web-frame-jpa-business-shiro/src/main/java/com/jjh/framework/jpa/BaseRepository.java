@@ -2,7 +2,9 @@ package com.jjh.framework.jpa;
 
 
 import com.jjh.common.web.form.PageRequestForm;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
@@ -32,6 +34,30 @@ public interface BaseRepository<T,ID> extends JpaRepository<T, ID>,JpaSpecificat
      * @return
      */
     List<T> list(PageRequestForm form,T entity);
+
+    /**
+     * 分页获取列表
+     * @param form  分页参数
+     * @param matcher  匹配器
+     * @return
+     */
+    public List<T> listMatcher(PageRequestForm<T> form, ExampleMatcher matcher);
+
+    /**
+     * 分页获取列表
+     * 范围查询（时间）
+     * @param form  分页参数
+     * @return
+     */
+    public List<T> listSpecific(PageRequestForm form);
+
+    /**
+     * 分页获取列表
+     * 自定义范围查询
+     * @param form  分页参数
+     * @return
+     */
+    public List<T> listSpecific(PageRequestForm form, Specification specification);
 
     /**
      * 分页获取列表
