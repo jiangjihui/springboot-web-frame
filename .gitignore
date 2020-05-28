@@ -1,1 +1,17 @@
+# IntelliJ project files
+/*.iml
 /.idea/
+/*,log
+/log
+/logs/
+/*.log.*
+/out
+/dist
+/build
+
+#*#
+/.gradle
+/bower_components
+/node_modules
+/*.log
+/target
