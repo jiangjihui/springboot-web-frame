@@ -1,9 +1,9 @@
 # IntelliJ project files
-/*.iml
-/.idea/
+**/*.iml
+**/*.idea/
 /*,log
 /log
-/logs/
+**/logs/
 /*.log.*
 /out
 /dist
@@ -14,4 +14,4 @@
 /bower_components
 /node_modules
 /*.log
-/target
+**/target
